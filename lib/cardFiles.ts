@@ -359,6 +359,394 @@ export const PLACEHOLDER: AirQuality = {
   },
 ];
 
+/* ─── GitHub ──────────────────────────────────────────────── */
+export const GITHUB_FILES: VirtualFile[] = [
+  {
+    name: 'index.tsx',
+    lang: 'tsx',
+    code: `'use client';
+import { useQuery } from '@tanstack/react-query';
+import { SkeletonTheme } from 'react-zero-skeleton';
+import { GithubCard } from './GithubCard';
+import { fetchGithub } from './api';
+import { PLACEHOLDER } from './types';
+
+export default function Github({ delay }: { delay: number }) {
+  const { data, isLoading } = useQuery({
+    queryKey: ['github', delay],
+    queryFn: () => fetchGithub(delay),
+  });
+
+  return (
+    <SkeletonTheme animation="shiver" color="#27272a" highlightColor="#3f3f46">
+      <GithubCard
+        hasSkeleton
+        isLoading={isLoading}
+        data={data ?? PLACEHOLDER}
+      />
+    </SkeletonTheme>
+  );
+}`,
+  },
+  {
+    name: 'GithubCard.tsx',
+    lang: 'tsx',
+    code: `import { withSkeleton } from 'react-zero-skeleton';
+import type { GithubProfile } from './types';
+
+const COLORS = ['#6366f1','#f97316','#22c55e','#a855f7','#14b8a6'];
+const avatarBg = (login: string) => COLORS[login.charCodeAt(0) % COLORS.length];
+
+function GithubCardBase({ data }: { data: GithubProfile }) {
+  return (
+    <div style={{ padding: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
+        <div style={{
+          width: 48, height: 48, borderRadius: '50%', flexShrink: 0,
+          background: avatarBg(data.login),
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: '#fff', fontWeight: 700, fontSize: 20,
+        }}>
+          {data.login[0].toUpperCase()}
+        </div>
+        <div>
+          <p style={{ fontWeight: 700, fontSize: 14, color: '#f4f4f5', width: 'fit-content' }}>
+            {data.name}
+          </p>
+          <p style={{ fontSize: 12, color: '#52525b', width: 'fit-content' }}>
+            @{data.login}
+          </p>
+        </div>
+      </div>
+      <p style={{ fontSize: 12, color: '#71717a', lineHeight: 1.6,
+        marginBottom: 18, width: 'fit-content' }}>
+        {data.bio}
+      </p>
+      <div style={{ display: 'flex', gap: 24 }}>
+        <Stat label="repos"     value={String(data.repos)} />
+        <Stat label="followers" value={data.followers.toLocaleString()} />
+        <Stat label="following" value={String(data.following)} />
+      </div>
+    </div>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p style={{ fontSize: 16, fontWeight: 700, color: '#f4f4f5', width: 'fit-content' }}>{value}</p>
+      <p style={{ fontSize: 11, color: '#52525b', width: 'fit-content' }}>{label}</p>
+    </div>
+  );
+}
+
+export const GithubCard = withSkeleton(GithubCardBase);`,
+  },
+  {
+    name: 'api.ts',
+    lang: 'ts',
+    code: `import type { GithubProfile } from './types';
+
+export async function fetchGithub(delay: number): Promise<GithubProfile> {
+  await new Promise(r => setTimeout(r, delay));
+
+  const res = await fetch('https://api.github.com/users/gaearon');
+  const raw = await res.json();
+  return {
+    login: raw.login,
+    name: raw.name ?? raw.login,
+    bio: (raw.bio ?? '').slice(0, 72),
+    repos: raw.public_repos,
+    followers: raw.followers,
+    following: raw.following,
+  };
+}`,
+  },
+  {
+    name: 'types.ts',
+    lang: 'ts',
+    code: `export type GithubProfile = {
+  login: string;
+  name: string;
+  bio: string;
+  repos: number;
+  followers: number;
+  following: number;
+};
+
+export const PLACEHOLDER: GithubProfile = {
+  login: 'gaearon',
+  name: 'Dan Abramov',
+  bio: 'Working on React. Also making egghead courses.',
+  repos: 248,
+  followers: 99400,
+  following: 171,
+};`,
+  },
+];
+
+/* ─── Product ─────────────────────────────────────────────── */
+export const PRODUCT_FILES: VirtualFile[] = [
+  {
+    name: 'index.tsx',
+    lang: 'tsx',
+    code: `'use client';
+import { useQuery } from '@tanstack/react-query';
+import { SkeletonTheme } from 'react-zero-skeleton';
+import { ProductCard } from './ProductCard';
+import { fetchProduct } from './api';
+import { PLACEHOLDER } from './types';
+
+export default function Product({ delay }: { delay: number }) {
+  const { data, isLoading } = useQuery({
+    queryKey: ['product', delay],
+    queryFn: () => fetchProduct(delay),
+  });
+
+  return (
+    <SkeletonTheme animation="wave" color="#27272a" highlightColor="#3f3f46">
+      <ProductCard
+        hasSkeleton
+        isLoading={isLoading}
+        data={data ?? PLACEHOLDER}
+      />
+    </SkeletonTheme>
+  );
+}`,
+  },
+  {
+    name: 'ProductCard.tsx',
+    lang: 'tsx',
+    code: `import { withSkeleton } from 'react-zero-skeleton';
+import type { Product } from './types';
+
+const CAT_COLORS: Record<string, string> = {
+  smartphones: '#6366f1', laptops: '#3b82f6',
+  fragrances: '#a855f7', skincare: '#ec4899',
+  groceries: '#22c55e', 'home-decoration': '#f97316',
+};
+const stars = (r: number) =>
+  '★'.repeat(Math.round(r)) + '☆'.repeat(5 - Math.round(r));
+
+function ProductCardBase({ data }: { data: Product }) {
+  const color = CAT_COLORS[data.category] ?? '#71717a';
+  return (
+    <div>
+      <div style={{
+        height: 110,
+        background: 'linear-gradient(135deg, #27272a, #3f3f46)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <span style={{ fontSize: 36 }}>🛍</span>
+      </div>
+      <div style={{ padding: '14px 18px 18px' }}>
+        <span style={{
+          display: 'inline-block', fontSize: 10, fontWeight: 700,
+          padding: '2px 8px', borderRadius: 20, marginBottom: 8,
+          background: color + '20', color,
+          textTransform: 'uppercase', letterSpacing: '0.06em',
+        }}>
+          {data.category}
+        </span>
+        <p style={{ fontSize: 14, fontWeight: 700, color: '#f4f4f5',
+          marginBottom: 6, width: 'fit-content' }}>
+          {data.title}
+        </p>
+        <p style={{ fontSize: 12, color: '#71717a', lineHeight: 1.5,
+          marginBottom: 14, width: 'fit-content' }}>
+          {data.description}
+        </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <p style={{ fontSize: 18, fontWeight: 700, color: '#f97316', width: 'fit-content' }}>
+            \${data.price}
+          </p>
+          <p style={{ fontSize: 13, color: '#fbbf24', letterSpacing: 1 }}>
+            {stars(data.rating)}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export const ProductCard = withSkeleton(ProductCardBase);`,
+  },
+  {
+    name: 'api.ts',
+    lang: 'ts',
+    code: `import type { Product } from './types';
+
+export async function fetchProduct(delay: number): Promise<Product> {
+  await new Promise(r => setTimeout(r, delay));
+
+  const id = Math.floor(Math.random() * 50) + 1;
+  const res = await fetch(\`https://dummyjson.com/products/\${id}\`);
+  const raw = await res.json();
+  return {
+    title: raw.title,
+    description: (raw.description as string).slice(0, 72),
+    price: raw.price,
+    rating: raw.rating,
+    category: raw.category,
+  };
+}`,
+  },
+  {
+    name: 'types.ts',
+    lang: 'ts',
+    code: `export type Product = {
+  title: string;
+  description: string;
+  price: number;
+  rating: number;
+  category: string;
+};
+
+export const PLACEHOLDER: Product = {
+  title: 'iPhone 9',
+  description: 'An apple mobile which is nothing like apple.',
+  price: 549,
+  rating: 4.7,
+  category: 'smartphones',
+};`,
+  },
+];
+
+/* ─── Hacker News ─────────────────────────────────────────── */
+export const HN_FILES: VirtualFile[] = [
+  {
+    name: 'index.tsx',
+    lang: 'tsx',
+    code: `'use client';
+import { useQuery } from '@tanstack/react-query';
+import { SkeletonTheme } from 'react-zero-skeleton';
+import { HNCard } from './HNCard';
+import { fetchHNStory } from './api';
+import { PLACEHOLDER } from './types';
+
+export default function HackerNews({ delay }: { delay: number }) {
+  const { data, isLoading } = useQuery({
+    queryKey: ['hn', delay],
+    queryFn: () => fetchHNStory(delay),
+  });
+
+  return (
+    <SkeletonTheme animation="pulse" color="#27272a" highlightColor="#3f3f46">
+      <HNCard
+        hasSkeleton
+        isLoading={isLoading}
+        data={data ?? PLACEHOLDER}
+      />
+    </SkeletonTheme>
+  );
+}`,
+  },
+  {
+    name: 'HNCard.tsx',
+    lang: 'tsx',
+    code: `import { withSkeleton } from 'react-zero-skeleton';
+import type { HNStory } from './types';
+
+function domain(url: string) {
+  try { return new URL(url).hostname.replace('www.', ''); }
+  catch { return 'news.ycombinator.com'; }
+}
+function timeAgo(unix: number) {
+  const h = Math.floor((Date.now() / 1000 - unix) / 3600);
+  if (h < 1) return 'just now';
+  if (h < 24) return \`\${h}h ago\`;
+  return \`\${Math.floor(h / 24)}d ago\`;
+}
+
+function HNCardBase({ data }: { data: HNStory }) {
+  return (
+    <div style={{ padding: 20 }}>
+      <div style={{ display: 'flex', gap: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column',
+          alignItems: 'center', flexShrink: 0, width: 44 }}>
+          <p style={{ fontSize: 24, fontWeight: 800, color: '#f97316',
+            lineHeight: 1, width: 'fit-content' }}>
+            {data.score}
+          </p>
+          <p style={{ fontSize: 10, color: '#52525b', width: 'fit-content' }}>pts</p>
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{ fontSize: 14, fontWeight: 600, color: '#f4f4f5',
+            lineHeight: 1.4, marginBottom: 10, width: 'fit-content' }}>
+            {data.title}
+          </p>
+          <p style={{ fontSize: 11, color: '#3f3f46',
+            marginBottom: 8, width: 'fit-content' }}>
+            {domain(data.url)}
+          </p>
+          <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+            <p style={{ fontSize: 11, color: '#52525b', width: 'fit-content' }}>
+              by {data.by}
+            </p>
+            <p style={{ fontSize: 11, color: '#52525b', width: 'fit-content' }}>
+              {timeAgo(data.time)}
+            </p>
+            <p style={{ fontSize: 11, color: '#52525b', width: 'fit-content' }}>
+              {data.descendants} comments
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export const HNCard = withSkeleton(HNCardBase);`,
+  },
+  {
+    name: 'api.ts',
+    lang: 'ts',
+    code: `import type { HNStory } from './types';
+
+export async function fetchHNStory(delay: number): Promise<HNStory> {
+  await new Promise(r => setTimeout(r, delay));
+
+  const ids: number[] = await fetch(
+    'https://hacker-news.firebaseio.com/v0/topstories.json'
+  ).then(r => r.json());
+
+  const raw = await fetch(
+    \`https://hacker-news.firebaseio.com/v0/item/\${ids[0]}.json\`
+  ).then(r => r.json());
+
+  return {
+    title: raw.title,
+    by: raw.by,
+    score: raw.score,
+    descendants: raw.descendants ?? 0,
+    url: raw.url ?? \`https://news.ycombinator.com/item?id=\${raw.id}\`,
+    time: raw.time,
+  };
+}`,
+  },
+  {
+    name: 'types.ts',
+    lang: 'ts',
+    code: `export type HNStory = {
+  title: string;
+  by: string;
+  score: number;
+  descendants: number;
+  url: string;
+  time: number;
+};
+
+export const PLACEHOLDER: HNStory = {
+  title: 'Building a zero-config skeleton library for React',
+  by: 'j-ben',
+  score: 342,
+  descendants: 87,
+  url: 'https://github.com/J-Ben/skelter',
+  time: Math.floor(Date.now() / 1000) - 7200,
+};`,
+  },
+];
+
 /* ─── Holiday ─────────────────────────────────────────────── */
 export const HOLIDAY_FILES: VirtualFile[] = [
   {

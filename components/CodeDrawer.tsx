@@ -2,12 +2,14 @@
 import { useEffect, useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { LiveProvider, LiveEditor, LivePreview, LiveError } from 'react-live';
 
 /* ─── Types ───────────────────────────────────────────────── */
 export type VirtualFile = { name: string; lang: 'tsx' | 'ts'; code: string };
 export type DrawerCard = {
   title: string; animation: string; folder: string;
   files: VirtualFile[]; component: React.ReactNode;
+  liveCode?: string; liveScope?: Record<string, unknown>;
 };
 
 /* ─── VS Code palette ─────────────────────────────────────── */
@@ -49,10 +51,15 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
 
   const [openTabs, setOpenTabs] = useState<string[]>(['index.tsx']);
   const [activeTab, setActiveTab] = useState('index.tsx');
+  const [liveMode, setLiveMode] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     setOpenTabs(['index.tsx']);
     setActiveTab('index.tsx');
+    setLiveMode(false);
   }, [activeIndex]);
 
   const openFile = (name: string) => {
@@ -79,6 +86,8 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [open, activeIndex, cards.length]);
+
+  const showLive = liveMode && mounted && !!card?.liveCode;
 
   return (
     <>
@@ -108,7 +117,21 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
             background: color + '20', color, border: `1px solid ${color}40`,
             textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'system-ui',
           }}>{card?.animation}</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginLeft: 8 }}>
+          {card?.liveCode && (
+            <button
+              onClick={() => setLiveMode(m => !m)}
+              style={{
+                fontSize: 11, padding: '3px 10px', borderRadius: 4,
+                background: liveMode ? '#f97316' : 'transparent',
+                border: `1px solid ${liveMode ? '#f97316' : '#555'}`,
+                color: liveMode ? '#fff' : '#aaa',
+                cursor: 'pointer', fontFamily: 'system-ui',
+              }}
+            >
+              {liveMode ? 'View' : 'Edit ✏'}
+            </button>
+          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginLeft: 4 }}>
             <button onClick={() => open && onNavigate((activeIndex! - 1 + cards.length) % cards.length)} style={titleBtn}>←</button>
             <span style={{ fontSize: 11, color: VS.muted, minWidth: 32, textAlign: 'center', fontFamily: 'system-ui' }}>
               {open ? activeIndex! + 1 : '-'}/{cards.length}
@@ -118,142 +141,200 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
           </div>
         </div>
 
-        {/* Body: [preview] [editor] [file tree] */}
-        <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        {/* Body */}
+        {showLive ? (
+          <LiveProvider code={card!.liveCode!} scope={card!.liveScope ?? {}} noInline>
+            <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
 
-          {/* LEFT — component preview */}
-          <div style={{
-            width: 310, flexShrink: 0,
-            background: '#0d0d0f',
-            borderRight: `1px solid ${VS.border}`,
-            display: 'flex', flexDirection: 'column',
-            alignItems: 'center', justifyContent: 'center',
-            padding: 16, gap: 14,
-          }}>
-            <p style={{
-              fontSize: 10, color: '#3f3f46', textTransform: 'uppercase',
-              letterSpacing: '0.1em', margin: 0, fontFamily: 'system-ui',
-            }}>Preview</p>
-            <div style={{
-              background: '#18181b', border: '1px solid #27272a',
-              borderRadius: 14, width: '100%', overflow: 'hidden',
-            }}>
-              {card?.component}
-            </div>
-          </div>
-
-          {/* CENTER — tab bar + code editor */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
-            {/* Tab bar */}
-            <div style={{
-              display: 'flex', background: VS.tabBar,
-              borderBottom: `1px solid ${VS.border}`,
-              overflowX: 'auto', flexShrink: 0,
-            }}>
-              {openTabs.map(tab => {
-                const f = card?.files.find(f => f.name === tab);
-                const isActive = tab === activeTab;
-                return (
-                  <div
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: 6,
-                      padding: '6px 14px',
-                      background: isActive ? VS.bg : VS.tabBar,
-                      borderRight: `1px solid ${VS.border}`,
-                      borderBottom: isActive ? `2px solid ${VS.accent}` : '2px solid transparent',
-                      cursor: 'pointer', fontSize: 12,
-                      color: isActive ? VS.text : VS.muted,
-                      flexShrink: 0, whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {f && <LangBadge lang={f.lang} />}
-                    <span style={{ fontFamily: 'system-ui' }}>{tab}</span>
-                    <span
-                      onClick={e => closeTab(tab, e)}
-                      style={{ fontSize: 14, color: VS.muted, marginLeft: 4, cursor: 'pointer' }}
-                      onMouseEnter={e => (e.currentTarget.style.color = VS.text)}
-                      onMouseLeave={e => (e.currentTarget.style.color = VS.muted)}
-                    >×</span>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Code */}
-            <div style={{ flex: 1, overflow: 'auto' }}>
-              {currentFile ? (
-                <SyntaxHighlighter
-                  language={currentFile.lang === 'ts' ? 'typescript' : 'tsx'}
-                  style={vscDarkPlus}
-                  customStyle={{
-                    margin: 0, borderRadius: 0,
-                    background: VS.bg,
-                    fontSize: 12, lineHeight: 1.75,
-                    minHeight: '100%', padding: '16px 0',
-                  }}
-                  showLineNumbers
-                  lineNumberStyle={{ color: '#444', fontSize: 11, paddingRight: 16, userSelect: 'none', minWidth: 40 }}
-                >
-                  {currentFile.code}
-                </SyntaxHighlighter>
-              ) : (
-                <div style={{ padding: 24, color: VS.muted, fontSize: 13, fontFamily: 'system-ui' }}>
-                  Select a file →
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* RIGHT — file explorer */}
-          <div style={{
-            width: 180, flexShrink: 0,
-            background: VS.sidebar,
-            borderLeft: `1px solid ${VS.border}`,
-            display: 'flex', flexDirection: 'column',
-            overflow: 'hidden',
-          }}>
-            <div style={{
-              fontSize: 10, fontWeight: 700, color: VS.muted,
-              padding: '12px 12px 6px', letterSpacing: '0.1em',
-              textTransform: 'uppercase', fontFamily: 'system-ui',
-            }}>Explorer</div>
-
-            <div>
-              {/* Folder name */}
+              {/* LEFT — live preview */}
               <div style={{
-                display: 'flex', alignItems: 'center', gap: 5,
-                padding: '3px 12px', fontSize: 12, color: VS.text,
+                width: 310, flexShrink: 0,
+                background: '#0d0d0f',
+                borderRight: `1px solid ${VS.border}`,
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center',
+                padding: 16, gap: 14,
               }}>
-                <span style={{ fontSize: 9, color: VS.muted }}>▾</span>
-                <span>📁</span>
-                <span style={{ fontFamily: 'system-ui' }}>{card?.folder ?? 'src'}</span>
+                <p style={{
+                  fontSize: 10, color: '#3f3f46', textTransform: 'uppercase',
+                  letterSpacing: '0.1em', margin: 0, fontFamily: 'system-ui',
+                }}>Live Preview</p>
+                <div style={{
+                  background: '#18181b', border: '1px solid #27272a',
+                  borderRadius: 14, width: '100%', overflow: 'hidden',
+                  color: '#f4f4f5',
+                }}>
+                  <LivePreview />
+                </div>
+                <LiveError style={{
+                  fontSize: 11, color: '#f87171', padding: '8px 12px',
+                  background: '#1a0000', borderRadius: 6, width: '100%',
+                  fontFamily: 'monospace', whiteSpace: 'pre-wrap', margin: 0,
+                }} />
               </div>
 
-              {/* Files */}
-              {card?.files.map(file => (
-                <div
-                  key={file.name}
-                  onClick={() => openFile(file.name)}
-                  style={{
-                    display: 'flex', alignItems: 'center',
-                    padding: '3px 12px 3px 28px',
-                    cursor: 'pointer', fontSize: 12,
-                    background: activeTab === file.name ? VS.selected : 'transparent',
-                    color: activeTab === file.name ? '#fff' : VS.text,
-                    transition: 'background 0.1s',
-                  }}
-                  onMouseEnter={e => { if (activeTab !== file.name) e.currentTarget.style.background = '#2a2d2e'; }}
-                  onMouseLeave={e => { if (activeTab !== file.name) e.currentTarget.style.background = 'transparent'; }}
-                >
-                  <LangBadge lang={file.lang} />
-                  <span style={{ fontFamily: 'system-ui' }}>{file.name}</span>
+              {/* CENTER — live editor */}
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
+                <div style={{
+                  padding: '6px 14px',
+                  background: VS.tabBar,
+                  borderBottom: `1px solid ${VS.border}`,
+                  fontSize: 11, color: VS.muted, fontFamily: 'system-ui',
+                  flexShrink: 0,
+                }}>
+                  ✏ Edit the component — preview updates live
                 </div>
-              ))}
+                <div style={{ flex: 1, overflow: 'auto', background: VS.bg }}>
+                  <LiveEditor
+                    style={{
+                      fontFamily: "'Menlo','Consolas','SF Mono',monospace",
+                      fontSize: 12,
+                      lineHeight: 1.75,
+                      background: VS.bg,
+                      minHeight: '100%',
+                      padding: '16px 0',
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </LiveProvider>
+        ) : (
+          /* ── Read-only mode ─────────────────────────── */
+          <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+
+            {/* LEFT — component preview */}
+            <div style={{
+              width: 310, flexShrink: 0,
+              background: '#0d0d0f',
+              borderRight: `1px solid ${VS.border}`,
+              display: 'flex', flexDirection: 'column',
+              alignItems: 'center', justifyContent: 'center',
+              padding: 16, gap: 14,
+            }}>
+              <p style={{
+                fontSize: 10, color: '#3f3f46', textTransform: 'uppercase',
+                letterSpacing: '0.1em', margin: 0, fontFamily: 'system-ui',
+              }}>Preview</p>
+              <div style={{
+                background: '#18181b', border: '1px solid #27272a',
+                borderRadius: 14, width: '100%', overflow: 'hidden',
+              }}>
+                {card?.component}
+              </div>
+            </div>
+
+            {/* CENTER — tab bar + code editor */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
+              {/* Tab bar */}
+              <div style={{
+                display: 'flex', background: VS.tabBar,
+                borderBottom: `1px solid ${VS.border}`,
+                overflowX: 'auto', flexShrink: 0,
+              }}>
+                {openTabs.map(tab => {
+                  const f = card?.files.find(f => f.name === tab);
+                  const isActive = tab === activeTab;
+                  return (
+                    <div
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 6,
+                        padding: '6px 14px',
+                        background: isActive ? VS.bg : VS.tabBar,
+                        borderRight: `1px solid ${VS.border}`,
+                        borderBottom: isActive ? `2px solid ${VS.accent}` : '2px solid transparent',
+                        cursor: 'pointer', fontSize: 12,
+                        color: isActive ? VS.text : VS.muted,
+                        flexShrink: 0, whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {f && <LangBadge lang={f.lang} />}
+                      <span style={{ fontFamily: 'system-ui' }}>{tab}</span>
+                      <span
+                        onClick={e => closeTab(tab, e)}
+                        style={{ fontSize: 14, color: VS.muted, marginLeft: 4, cursor: 'pointer' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = VS.text)}
+                        onMouseLeave={e => (e.currentTarget.style.color = VS.muted)}
+                      >×</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Code */}
+              <div style={{ flex: 1, overflow: 'auto' }}>
+                {currentFile ? (
+                  <SyntaxHighlighter
+                    language={currentFile.lang === 'ts' ? 'typescript' : 'tsx'}
+                    style={vscDarkPlus}
+                    customStyle={{
+                      margin: 0, borderRadius: 0,
+                      background: VS.bg,
+                      fontSize: 12, lineHeight: 1.75,
+                      minHeight: '100%', padding: '16px 0',
+                    }}
+                    showLineNumbers
+                    lineNumberStyle={{ color: '#444', fontSize: 11, paddingRight: 16, userSelect: 'none', minWidth: 40 }}
+                  >
+                    {currentFile.code}
+                  </SyntaxHighlighter>
+                ) : (
+                  <div style={{ padding: 24, color: VS.muted, fontSize: 13, fontFamily: 'system-ui' }}>
+                    Select a file →
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* RIGHT — file explorer */}
+            <div style={{
+              width: 180, flexShrink: 0,
+              background: VS.sidebar,
+              borderLeft: `1px solid ${VS.border}`,
+              display: 'flex', flexDirection: 'column',
+              overflow: 'hidden',
+            }}>
+              <div style={{
+                fontSize: 10, fontWeight: 700, color: VS.muted,
+                padding: '12px 12px 6px', letterSpacing: '0.1em',
+                textTransform: 'uppercase', fontFamily: 'system-ui',
+              }}>Explorer</div>
+
+              <div>
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 5,
+                  padding: '3px 12px', fontSize: 12, color: VS.text,
+                }}>
+                  <span style={{ fontSize: 9, color: VS.muted }}>▾</span>
+                  <span>📁</span>
+                  <span style={{ fontFamily: 'system-ui' }}>{card?.folder ?? 'src'}</span>
+                </div>
+
+                {card?.files.map(file => (
+                  <div
+                    key={file.name}
+                    onClick={() => openFile(file.name)}
+                    style={{
+                      display: 'flex', alignItems: 'center',
+                      padding: '3px 12px 3px 28px',
+                      cursor: 'pointer', fontSize: 12,
+                      background: activeTab === file.name ? VS.selected : 'transparent',
+                      color: activeTab === file.name ? '#fff' : VS.text,
+                      transition: 'background 0.1s',
+                    }}
+                    onMouseEnter={e => { if (activeTab !== file.name) e.currentTarget.style.background = '#2a2d2e'; }}
+                    onMouseLeave={e => { if (activeTab !== file.name) e.currentTarget.style.background = 'transparent'; }}
+                  >
+                    <LangBadge lang={file.lang} />
+                    <span style={{ fontFamily: 'system-ui' }}>{file.name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Status bar */}
         <div style={{
@@ -264,7 +345,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
             react-zero-skeleton · demo
           </span>
           <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginLeft: 'auto', fontFamily: 'system-ui' }}>
-            {currentFile?.lang === 'ts' ? 'TypeScript' : 'TypeScript React'} · Alt+← Alt+→ navigate
+            {showLive ? 'Live Editor · react-live' : `${currentFile?.lang === 'ts' ? 'TypeScript' : 'TypeScript React'} · Alt+← Alt+→ navigate`}
           </span>
         </div>
       </div>
