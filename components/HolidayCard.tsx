@@ -59,7 +59,7 @@ export default function Holiday({ delay, onLoaded }: { delay: number; onLoaded?:
   }, [result]);
 
   return (
-    <SkeletonTheme animation="shatter" color="#27272a" highlightColor="#3f3f46" borderRadius={6}
+    <SkeletonTheme animation="shatter" exit="fadeRight" color="#27272a" highlightColor="#3f3f46" borderRadius={6}
       shatterConfig={{ gridSize: 10, fadeStyle: 'random', stagger: 25 }}>
       <HolidayCard hasSkeleton isLoading={isLoading} data={result?.data ?? PLACEHOLDER} />
     </SkeletonTheme>

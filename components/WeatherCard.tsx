@@ -69,7 +69,7 @@ export default function Weather({ delay, onLoaded }: { delay: number; onLoaded?:
   }, [result]);
 
   return (
-    <SkeletonTheme animation="wave" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+    <SkeletonTheme animation="wave" exit="fadeUp" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
       <WeatherCard hasSkeleton isLoading={isLoading} data={result?.data ?? PLACEHOLDER} />
     </SkeletonTheme>
   );
