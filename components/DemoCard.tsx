@@ -1,29 +1,24 @@
 'use client';
-import { useState } from 'react';
 
 const ANIM_COLOR: Record<string, string> = {
-  wave: '#60a5fa',
-  pulse: '#a78bfa',
-  shiver: '#34d399',
-  shatter: '#f97316',
+  wave: '#60a5fa', pulse: '#a78bfa', shiver: '#34d399', shatter: '#f97316',
 };
 
 export default function DemoCard({
   title,
   api,
   animation,
-  code,
   loadTime,
+  onOpenCode,
   children,
 }: {
   title: string;
   api: string;
   animation: string;
-  code: string;
   loadTime: number | null;
+  onOpenCode: () => void;
   children: React.ReactNode;
 }) {
-  const [showCode, setShowCode] = useState(false);
   const color = ANIM_COLOR[animation] ?? '#71717a';
 
   return (
@@ -58,30 +53,18 @@ export default function DemoCard({
             : <span style={{ color: '#3f3f46' }}>chargement…</span>}
         </span>
         <button
-          onClick={() => setShowCode(v => !v)}
+          onClick={onOpenCode}
           style={{
-            fontSize: 11, color: showCode ? color : '#52525b',
-            background: 'none', border: 'none', cursor: 'pointer',
-            fontFamily: 'monospace', transition: 'color 0.15s',
+            fontSize: 11, color: '#52525b', background: 'none', border: 'none',
+            cursor: 'pointer', fontFamily: 'monospace', transition: 'color 0.15s',
+            padding: 0,
           }}
+          onMouseEnter={e => (e.currentTarget.style.color = color)}
+          onMouseLeave={e => (e.currentTarget.style.color = '#52525b')}
         >
-          {showCode ? '× fermer' : '<code />'}
+          {'<code />'}
         </button>
       </div>
-
-      {showCode && (
-        <div style={{
-          borderTop: '1px solid #27272a', padding: 16,
-          background: '#111113', borderRadius: '0 0 16px 16px', overflow: 'auto',
-        }}>
-          <pre style={{
-            fontSize: 11, lineHeight: 1.65, color: '#a1a1aa',
-            margin: 0, fontFamily: "'SF Mono', 'Fira Code', monospace",
-          }}>
-            {code}
-          </pre>
-        </div>
-      )}
     </div>
   );
 }
