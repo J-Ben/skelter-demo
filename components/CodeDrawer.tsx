@@ -123,7 +123,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
 
           {/* LEFT — component preview */}
           <div style={{
-            width: 240, flexShrink: 0,
+            width: 310, flexShrink: 0,
             background: '#0d0d0f',
             borderRight: `1px solid ${VS.border}`,
             display: 'flex', flexDirection: 'column',
