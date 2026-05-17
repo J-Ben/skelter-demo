@@ -9,33 +9,8 @@ export const WEATHER_FILES: VirtualFile[] = [
 import { useQuery } from '@tanstack/react-query';
 import { SkeletonTheme } from 'react-zero-skeleton';
 import { WeatherCard } from './WeatherCard';
-import { PLACEHOLDER, type Weather } from './types';
-
-async function fetchWeather(delay: number): Promise<Weather> {
-  await new Promise(r => setTimeout(r, delay));
-  const res = await fetch(
-    'https://api.open-meteo.com/v1/forecast' +
-    '?latitude=48.85&longitude=2.35' +
-    '&current=temperature_2m,apparent_temperature' +
-    ',relative_humidity_2m,wind_speed_10m,weather_code' +
-    '&wind_speed_unit=kmh'
-  );
-  const { current: c } = await res.json();
-  return {
-    city: 'Paris',
-    temp: Math.round(c.temperature_2m),
-    feelsLike: Math.round(c.apparent_temperature),
-    humidity: c.relative_humidity_2m,
-    wind: Math.round(c.wind_speed_10m),
-    description: WEATHER_CODES[c.weather_code] ?? 'Inconnu',
-  };
-}
-
-const WEATHER_CODES: Record<number, string> = {
-  0: 'Ciel dégagé', 1: 'Principalement dégagé',
-  2: 'Partiellement nuageux', 3: 'Couvert',
-  61: 'Pluie légère', 80: 'Averses légères', 95: 'Orage',
-};
+import { fetchWeather } from './api';
+import { PLACEHOLDER } from './types';
 
 export default function Weather({ delay }: { delay: number }) {
   const { data, isLoading } = useQuery({
@@ -98,6 +73,46 @@ function Stat({ label, value }: { label: string; value: string }) {
 export const WeatherCard = withSkeleton(WeatherCardBase);`,
   },
   {
+    name: 'api.ts',
+    lang: 'ts',
+    code: `import type { Weather } from './types';
+
+const WEATHER_CODES: Record<number, string> = {
+  0: 'Ciel dégagé',
+  1: 'Principalement dégagé',
+  2: 'Partiellement nuageux',
+  3: 'Couvert',
+  45: 'Brouillard',
+  61: 'Pluie légère',
+  63: 'Pluie modérée',
+  71: 'Neige légère',
+  80: 'Averses légères',
+  95: 'Orage',
+};
+
+export async function fetchWeather(delay: number): Promise<Weather> {
+  await new Promise(r => setTimeout(r, delay));
+
+  const res = await fetch(
+    'https://api.open-meteo.com/v1/forecast' +
+    '?latitude=48.85&longitude=2.35' +
+    '&current=temperature_2m,apparent_temperature' +
+    ',relative_humidity_2m,wind_speed_10m,weather_code' +
+    '&wind_speed_unit=kmh'
+  );
+  const { current: c } = await res.json();
+
+  return {
+    city: 'Paris',
+    temp: Math.round(c.temperature_2m),
+    feelsLike: Math.round(c.apparent_temperature),
+    humidity: c.relative_humidity_2m,
+    wind: Math.round(c.wind_speed_10m),
+    description: WEATHER_CODES[c.weather_code] ?? 'Inconnu',
+  };
+}`,
+  },
+  {
     name: 'types.ts',
     lang: 'ts',
     code: `export type Weather = {
@@ -129,16 +144,8 @@ export const CURRENCY_FILES: VirtualFile[] = [
 import { useQuery } from '@tanstack/react-query';
 import { SkeletonTheme } from 'react-zero-skeleton';
 import { CurrencyCard } from './CurrencyCard';
-import { PLACEHOLDER, type Rates } from './types';
-
-async function fetchRates(delay: number): Promise<Rates> {
-  await new Promise(r => setTimeout(r, delay));
-  const res = await fetch(
-    'https://api.frankfurter.app/latest?from=EUR&to=USD,GBP,JPY,CHF'
-  );
-  const { rates } = await res.json();
-  return rates;
-}
+import { fetchRates } from './api';
+import { PLACEHOLDER } from './types';
 
 export default function Currency({ delay }: { delay: number }) {
   const { data, isLoading } = useQuery({
@@ -196,6 +203,21 @@ function CurrencyCardBase({ data }: { data: Rates }) {
 export const CurrencyCard = withSkeleton(CurrencyCardBase);`,
   },
   {
+    name: 'api.ts',
+    lang: 'ts',
+    code: `import type { Rates } from './types';
+
+export async function fetchRates(delay: number): Promise<Rates> {
+  await new Promise(r => setTimeout(r, delay));
+
+  const res = await fetch(
+    'https://api.frankfurter.app/latest?from=EUR&to=USD,GBP,JPY,CHF'
+  );
+  const { rates } = await res.json();
+  return rates;
+}`,
+  },
+  {
     name: 'types.ts',
     lang: 'ts',
     code: `export type Rates = {
@@ -223,28 +245,8 @@ export const AIR_FILES: VirtualFile[] = [
 import { useQuery } from '@tanstack/react-query';
 import { SkeletonTheme } from 'react-zero-skeleton';
 import { AirQualityCard } from './AirQualityCard';
-import { PLACEHOLDER, type AirQuality } from './types';
-
-async function fetchAirQuality(delay: number): Promise<AirQuality> {
-  await new Promise(r => setTimeout(r, delay));
-  const res = await fetch(
-    'https://air-quality-api.open-meteo.com/v1/air-quality' +
-    '?latitude=48.85&longitude=2.35' +
-    '&current=pm2_5,pm10,european_aqi'
-  );
-  const { current } = await res.json();
-  const aqi = current.european_aqi;
-  const { label, color } = AQI_LEVELS.find(l => aqi <= l.max)!;
-  return { aqi, pm25: current.pm2_5, pm10: current.pm10, label, color };
-}
-
-const AQI_LEVELS = [
-  { max: 20,       label: 'Bon',         color: '#22c55e' },
-  { max: 40,       label: 'Acceptable',  color: '#84cc16' },
-  { max: 60,       label: 'Modéré',      color: '#eab308' },
-  { max: 80,       label: 'Mauvais',     color: '#f97316' },
-  { max: Infinity, label: 'Très mauvais',color: '#ef4444' },
-];
+import { fetchAirQuality } from './api';
+import { PLACEHOLDER } from './types';
 
 export default function AirQuality({ delay }: { delay: number }) {
   const { data, isLoading } = useQuery({
@@ -309,6 +311,34 @@ function Pollutant({ label, value }: { label: string; value: string }) {
 export const AirQualityCard = withSkeleton(AirQualityCardBase);`,
   },
   {
+    name: 'api.ts',
+    lang: 'ts',
+    code: `import type { AirQuality } from './types';
+
+const AQI_LEVELS = [
+  { max: 20,       label: 'Bon',          color: '#22c55e' },
+  { max: 40,       label: 'Acceptable',   color: '#84cc16' },
+  { max: 60,       label: 'Modéré',       color: '#eab308' },
+  { max: 80,       label: 'Mauvais',      color: '#f97316' },
+  { max: Infinity, label: 'Très mauvais', color: '#ef4444' },
+];
+
+export async function fetchAirQuality(delay: number): Promise<AirQuality> {
+  await new Promise(r => setTimeout(r, delay));
+
+  const res = await fetch(
+    'https://air-quality-api.open-meteo.com/v1/air-quality' +
+    '?latitude=48.85&longitude=2.35' +
+    '&current=pm2_5,pm10,european_aqi'
+  );
+  const { current } = await res.json();
+  const aqi = current.european_aqi;
+  const { label, color } = AQI_LEVELS.find(l => aqi <= l.max)!;
+
+  return { aqi, pm25: current.pm2_5, pm10: current.pm10, label, color };
+}`,
+  },
+  {
     name: 'types.ts',
     lang: 'ts',
     code: `export type AirQuality = {
@@ -338,24 +368,8 @@ export const HOLIDAY_FILES: VirtualFile[] = [
 import { useQuery } from '@tanstack/react-query';
 import { SkeletonTheme } from 'react-zero-skeleton';
 import { HolidayCard } from './HolidayCard';
-import { PLACEHOLDER, type Holiday } from './types';
-
-async function fetchHoliday(delay: number): Promise<Holiday> {
-  await new Promise(r => setTimeout(r, delay));
-  const res = await fetch(
-    'https://date.nager.at/api/v3/NextPublicHolidays/FR'
-  );
-  const [next] = await res.json();
-  const daysUntil = Math.ceil(
-    (new Date(next.date).getTime() - Date.now()) / 86_400_000
-  );
-  return {
-    name: next.name,
-    localName: next.localName,
-    date: next.date,
-    daysUntil,
-  };
-}
+import { fetchHoliday } from './api';
+import { PLACEHOLDER } from './types';
 
 export default function Holiday({ delay }: { delay: number }) {
   const { data, isLoading } = useQuery({
@@ -432,6 +446,30 @@ function HolidayCardBase({ data }: { data: Holiday }) {
 }
 
 export const HolidayCard = withSkeleton(HolidayCardBase);`,
+  },
+  {
+    name: 'api.ts',
+    lang: 'ts',
+    code: `import type { Holiday } from './types';
+
+export async function fetchHoliday(delay: number): Promise<Holiday> {
+  await new Promise(r => setTimeout(r, delay));
+
+  const res = await fetch(
+    'https://date.nager.at/api/v3/NextPublicHolidays/FR'
+  );
+  const [next] = await res.json();
+  const daysUntil = Math.ceil(
+    (new Date(next.date).getTime() - Date.now()) / 86_400_000
+  );
+
+  return {
+    name: next.name,
+    localName: next.localName,
+    date: next.date,
+    daysUntil,
+  };
+}`,
   },
   {
     name: 'types.ts',
