@@ -147,7 +147,10 @@ export default function Home() {
           <a href="https://www.npmjs.com/package/react-zero-skeleton" style={{ color: '#52525b', textDecoration: 'underline' }}>
             react-zero-skeleton
           </a>
-          {' '}· données open source
+          {' '}· données open source · par{' '}
+          <a href="https://skelter.vercel.app" style={{ color: '#52525b', textDecoration: 'underline' }}>
+            J-Ben
+          </a>
         </div>
       </main>
 
