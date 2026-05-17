@@ -20,13 +20,13 @@ async function fetchHoliday(delay: number): Promise<{ data: Holiday; loadTime: n
 
 function HolidayCardBase({ data }: { data: Holiday }) {
   const [year, month, day] = data.date.split('-');
-  const formatted = new Date(+year, +month - 1, +day).toLocaleDateString('fr-FR', {
+  const formatted = new Date(+year, +month - 1, +day).toLocaleDateString('en-GB', {
     weekday: 'long', day: 'numeric', month: 'long',
   });
   return (
     <div style={{ padding: 24 }}>
       <p style={{ fontSize: 11, color: '#71717a', marginBottom: 16, textTransform: 'uppercase', letterSpacing: 1 }}>
-        Prochain jour férié 🇫🇷
+        Next public holiday 🇫🇷
       </p>
       <p style={{ fontSize: 20, fontWeight: 700, marginBottom: 6, width: 'fit-content' }}>{data.localName}</p>
       <p style={{ fontSize: 13, color: '#71717a', marginBottom: 20, width: 'fit-content' }}>{data.name}</p>
@@ -37,7 +37,7 @@ function HolidayCardBase({ data }: { data: Holiday }) {
         </div>
         <div style={{ textAlign: 'right' }}>
           <p style={{ fontSize: 36, fontWeight: 700, color: '#f97316', lineHeight: 1, width: 'fit-content', marginLeft: 'auto' }}>{data.daysUntil}</p>
-          <p style={{ fontSize: 11, color: '#71717a', width: 'fit-content', marginLeft: 'auto' }}>jours</p>
+          <p style={{ fontSize: 11, color: '#71717a', width: 'fit-content', marginLeft: 'auto' }}>days</p>
         </div>
       </div>
     </div>
@@ -75,7 +75,7 @@ function HolidayCardBase({ data }) {
       <p>{data.localName}</p>
       <p>{data.name}</p>
       <p>{data.date}</p>
-      <p>{data.daysUntil} jours</p>
+      <p>{data.daysUntil} days</p>
     </div>
   )
 }

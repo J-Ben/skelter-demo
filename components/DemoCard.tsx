@@ -49,8 +49,8 @@ export default function DemoCard({
       }}>
         <span style={{ fontSize: 11 }}>
           {loadTime !== null
-            ? <span style={{ color: '#71717a' }}>chargé en <span style={{ color: '#a1a1aa', fontWeight: 700 }}>{loadTime} ms</span></span>
-            : <span style={{ color: '#3f3f46' }}>chargement…</span>}
+            ? <span style={{ color: '#71717a' }}>loaded in <span style={{ color: '#a1a1aa', fontWeight: 700 }}>{loadTime} ms</span></span>
+            : <span style={{ color: '#3f3f46' }}>loading…</span>}
         </span>
         <button
           onClick={onOpenCode}

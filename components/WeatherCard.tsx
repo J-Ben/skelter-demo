@@ -14,17 +14,17 @@ async function fetchWeather(delay: number): Promise<{ data: Weather; loadTime: n
   const raw = await res.json();
   const c = raw.current;
   const descriptions: Record<number, string> = {
-    0: 'Ciel dégagé', 1: 'Principalement dégagé', 2: 'Partiellement nuageux',
-    3: 'Couvert', 45: 'Brouillard', 51: 'Bruine légère',
-    61: 'Pluie légère', 63: 'Pluie modérée', 71: 'Neige légère',
-    80: 'Averses légères', 95: 'Orage',
+    0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy',
+    3: 'Overcast', 45: 'Fog', 51: 'Light drizzle',
+    61: 'Light rain', 63: 'Moderate rain', 71: 'Light snow',
+    80: 'Light showers', 95: 'Thunderstorm',
   };
   return {
     data: {
       city: 'Paris', temp: Math.round(c.temperature_2m),
       feelsLike: Math.round(c.apparent_temperature),
       humidity: c.relative_humidity_2m, wind: Math.round(c.wind_speed_10m),
-      description: descriptions[c.weather_code] ?? 'Inconnu',
+      description: descriptions[c.weather_code] ?? 'Unknown',
     },
     loadTime: Date.now() - t0,
   };
@@ -38,15 +38,15 @@ function WeatherCardBase({ data }: { data: Weather }) {
       <p style={{ fontSize: 15, color: '#a1a1aa', marginBottom: 20, width: 'fit-content' }}>{data.description}</p>
       <div style={{ display: 'flex', gap: 24 }}>
         <div>
-          <p style={{ fontSize: 11, color: '#52525b', marginBottom: 2, width: 'fit-content' }}>Ressenti</p>
+          <p style={{ fontSize: 11, color: '#52525b', marginBottom: 2, width: 'fit-content' }}>Feels like</p>
           <p style={{ fontSize: 15, fontWeight: 600, width: 'fit-content' }}>{data.feelsLike}°</p>
         </div>
         <div>
-          <p style={{ fontSize: 11, color: '#52525b', marginBottom: 2, width: 'fit-content' }}>Humidité</p>
+          <p style={{ fontSize: 11, color: '#52525b', marginBottom: 2, width: 'fit-content' }}>Humidity</p>
           <p style={{ fontSize: 15, fontWeight: 600, width: 'fit-content' }}>{data.humidity}%</p>
         </div>
         <div>
-          <p style={{ fontSize: 11, color: '#52525b', marginBottom: 2, width: 'fit-content' }}>Vent</p>
+          <p style={{ fontSize: 11, color: '#52525b', marginBottom: 2, width: 'fit-content' }}>Wind</p>
           <p style={{ fontSize: 15, fontWeight: 600, width: 'fit-content' }}>{data.wind} km/h</p>
         </div>
       </div>
@@ -56,7 +56,7 @@ function WeatherCardBase({ data }: { data: Weather }) {
 
 const WeatherCard = withSkeleton(WeatherCardBase);
 
-const PLACEHOLDER: Weather = { city: 'Paris', temp: 18, feelsLike: 16, humidity: 72, wind: 14, description: 'Partiellement nuageux' };
+const PLACEHOLDER: Weather = { city: 'Paris', temp: 18, feelsLike: 16, humidity: 72, wind: 14, description: 'Partly cloudy' };
 
 export default function Weather({ delay, onLoaded }: { delay: number; onLoaded?: (ms: number) => void }) {
   const { data: result, isLoading } = useQuery({
@@ -78,7 +78,7 @@ export default function Weather({ delay, onLoaded }: { delay: number; onLoaded?:
 export const WEATHER_CODE = `import { withSkeleton, SkeletonTheme } from 'react-zero-skeleton'
 import { useQuery } from '@tanstack/react-query'
 
-// Votre composant — inchangé
+// Your component — unchanged
 function WeatherCardBase({ data }) {
   return (
     <div>
@@ -89,7 +89,7 @@ function WeatherCardBase({ data }) {
   )
 }
 
-// Une ligne. C'est tout.
+// One line. That's it.
 const WeatherCard = withSkeleton(WeatherCardBase)
 
 export default function Weather({ delay }) {

@@ -48,9 +48,9 @@ function WeatherCardBase({ data }: { data: Weather }) {
         {data.description}
       </p>
       <div style={{ display: 'flex', gap: 24, marginTop: 20 }}>
-        <Stat label="Ressenti" value={\`\${data.feelsLike}°\`} />
-        <Stat label="Humidité" value={\`\${data.humidity}%\`} />
-        <Stat label="Vent"     value={\`\${data.wind} km/h\`} />
+        <Stat label="Feels like" value={\`\${data.feelsLike}°\`} />
+        <Stat label="Humidity"   value={\`\${data.humidity}%\`} />
+        <Stat label="Wind"       value={\`\${data.wind} km/h\`} />
       </div>
     </div>
   );
@@ -69,7 +69,7 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-// Une ligne — skelter mesure le layout et génère les bones.
+// One line — skelter measures the layout and generates the bones.
 export const WeatherCard = withSkeleton(WeatherCardBase);`,
   },
   {
@@ -78,16 +78,16 @@ export const WeatherCard = withSkeleton(WeatherCardBase);`,
     code: `import type { Weather } from './types';
 
 const WEATHER_CODES: Record<number, string> = {
-  0: 'Ciel dégagé',
-  1: 'Principalement dégagé',
-  2: 'Partiellement nuageux',
-  3: 'Couvert',
-  45: 'Brouillard',
-  61: 'Pluie légère',
-  63: 'Pluie modérée',
-  71: 'Neige légère',
-  80: 'Averses légères',
-  95: 'Orage',
+  0: 'Clear sky',
+  1: 'Mainly clear',
+  2: 'Partly cloudy',
+  3: 'Overcast',
+  45: 'Fog',
+  61: 'Light rain',
+  63: 'Moderate rain',
+  71: 'Light snow',
+  80: 'Light showers',
+  95: 'Thunderstorm',
 };
 
 export async function fetchWeather(delay: number): Promise<Weather> {
@@ -108,7 +108,7 @@ export async function fetchWeather(delay: number): Promise<Weather> {
     feelsLike: Math.round(c.apparent_temperature),
     humidity: c.relative_humidity_2m,
     wind: Math.round(c.wind_speed_10m),
-    description: WEATHER_CODES[c.weather_code] ?? 'Inconnu',
+    description: WEATHER_CODES[c.weather_code] ?? 'Unknown',
   };
 }`,
   },
@@ -130,7 +130,7 @@ export const PLACEHOLDER: Weather = {
   feelsLike: 16,
   humidity: 72,
   wind: 14,
-  description: 'Partiellement nuageux',
+  description: 'Partly cloudy',
 };`,
   },
 ];
@@ -182,7 +182,7 @@ function CurrencyCardBase({ data }: { data: Rates }) {
     <div style={{ padding: 24 }}>
       <p style={{ fontSize: 11, color: '#71717a', marginBottom: 16,
         textTransform: 'uppercase', letterSpacing: 1 }}>
-        Taux de change
+        Exchange rates
       </p>
       {PAIRS.map(({ label, key, decimals }) => (
         <div key={key} style={{ display: 'flex',
@@ -194,7 +194,7 @@ function CurrencyCardBase({ data }: { data: Rates }) {
         </div>
       ))}
       <p style={{ fontSize: 11, color: '#3f3f46', marginTop: 8 }}>
-        Source : Frankfurter
+        Source: Frankfurter
       </p>
     </div>
   );
@@ -276,7 +276,7 @@ function AirQualityCardBase({ data }: { data: AirQuality }) {
     <div style={{ padding: 24 }}>
       <p style={{ fontSize: 11, color: '#71717a', marginBottom: 12,
         textTransform: 'uppercase', letterSpacing: 1 }}>
-        Qualité de l'air — Paris
+        Air quality — Paris
       </p>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
         <p style={{ fontSize: 52, fontWeight: 700, lineHeight: 1,
@@ -284,7 +284,7 @@ function AirQualityCardBase({ data }: { data: AirQuality }) {
           {data.aqi}
         </p>
         <p style={{ fontSize: 13, color: '#71717a', width: 'fit-content' }}>
-          IQA européen
+          European AQI
         </p>
       </div>
       <p style={{ fontSize: 15, fontWeight: 600, color: data.color,
@@ -316,11 +316,11 @@ export const AirQualityCard = withSkeleton(AirQualityCardBase);`,
     code: `import type { AirQuality } from './types';
 
 const AQI_LEVELS = [
-  { max: 20,       label: 'Bon',          color: '#22c55e' },
-  { max: 40,       label: 'Acceptable',   color: '#84cc16' },
-  { max: 60,       label: 'Modéré',       color: '#eab308' },
-  { max: 80,       label: 'Mauvais',      color: '#f97316' },
-  { max: Infinity, label: 'Très mauvais', color: '#ef4444' },
+  { max: 20,       label: 'Good',          color: '#22c55e' },
+  { max: 40,       label: 'Fair',   color: '#84cc16' },
+  { max: 60,       label: 'Moderate',       color: '#eab308' },
+  { max: 80,       label: 'Poor',      color: '#f97316' },
+  { max: Infinity, label: 'Very poor', color: '#ef4444' },
 ];
 
 export async function fetchAirQuality(delay: number): Promise<AirQuality> {
@@ -353,7 +353,7 @@ export const PLACEHOLDER: AirQuality = {
   aqi: 28,
   pm25: 8.4,
   pm10: 14.2,
-  label: 'Acceptable',
+  label: 'Fair',
   color: '#84cc16',
 };`,
   },
@@ -401,7 +401,7 @@ import type { Holiday } from './types';
 
 function HolidayCardBase({ data }: { data: Holiday }) {
   const [y, m, d] = data.date.split('-');
-  const formatted = new Date(+y, +m - 1, +d).toLocaleDateString('fr-FR', {
+  const formatted = new Date(+y, +m - 1, +d).toLocaleDateString('en-GB', {
     weekday: 'long', day: 'numeric', month: 'long',
   });
 
@@ -409,7 +409,7 @@ function HolidayCardBase({ data }: { data: Holiday }) {
     <div style={{ padding: 24 }}>
       <p style={{ fontSize: 11, color: '#71717a', marginBottom: 16,
         textTransform: 'uppercase', letterSpacing: 1 }}>
-        Prochain jour férié 🇫🇷
+        Next public holiday 🇫🇷
       </p>
       <p style={{ fontSize: 20, fontWeight: 700, marginBottom: 6,
         width: 'fit-content' }}>
@@ -437,7 +437,7 @@ function HolidayCardBase({ data }: { data: Holiday }) {
           </p>
           <p style={{ fontSize: 11, color: '#71717a',
             width: 'fit-content', marginLeft: 'auto' }}>
-            jours
+            days
           </p>
         </div>
       </div>

@@ -23,7 +23,7 @@ function CurrencyCardBase({ data }: { data: Rates }) {
   return (
     <div style={{ padding: 24 }}>
       <p style={{ fontSize: 11, color: '#71717a', marginBottom: 16, textTransform: 'uppercase', letterSpacing: 1 }}>
-        Taux de change
+        Exchange rates
       </p>
       {pairs.map(({ label, value }) => (
         <div key={label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 14 }}>
@@ -31,7 +31,7 @@ function CurrencyCardBase({ data }: { data: Rates }) {
           <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'monospace' }}>{value}</p>
         </div>
       ))}
-      <p style={{ fontSize: 11, color: '#3f3f46', marginTop: 8 }}>Source : Frankfurter</p>
+      <p style={{ fontSize: 11, color: '#3f3f46', marginTop: 8 }}>Source: Frankfurter</p>
     </div>
   );
 }

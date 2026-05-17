@@ -133,7 +133,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
             <p style={{
               fontSize: 10, color: '#3f3f46', textTransform: 'uppercase',
               letterSpacing: '0.1em', margin: 0, fontFamily: 'system-ui',
-            }}>Aperçu</p>
+            }}>Preview</p>
             <div style={{
               background: '#18181b', border: '1px solid #27272a',
               borderRadius: 14, width: '100%', overflow: 'hidden',
@@ -200,7 +200,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
                 </SyntaxHighlighter>
               ) : (
                 <div style={{ padding: 24, color: VS.muted, fontSize: 13, fontFamily: 'system-ui' }}>
-                  Sélectionnez un fichier →
+                  Select a file →
                 </div>
               )}
             </div>
@@ -264,7 +264,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
             react-zero-skeleton · demo
           </span>
           <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginLeft: 'auto', fontFamily: 'system-ui' }}>
-            {currentFile?.lang === 'ts' ? 'TypeScript' : 'TypeScript React'} · Alt+← Alt+→ naviguer
+            {currentFile?.lang === 'ts' ? 'TypeScript' : 'TypeScript React'} · Alt+← Alt+→ navigate
           </span>
         </div>
       </div>

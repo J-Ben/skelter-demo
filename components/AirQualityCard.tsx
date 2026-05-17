@@ -14,11 +14,11 @@ async function fetchAirQuality(delay: number): Promise<{ data: AirQuality; loadT
   const raw = await res.json();
   const aqi = raw.current.european_aqi;
   const levels = [
-    { max: 20, label: 'Bon', color: '#22c55e' },
-    { max: 40, label: 'Acceptable', color: '#84cc16' },
-    { max: 60, label: 'Modéré', color: '#eab308' },
-    { max: 80, label: 'Mauvais', color: '#f97316' },
-    { max: Infinity, label: 'Très mauvais', color: '#ef4444' },
+    { max: 20, label: 'Good', color: '#22c55e' },
+    { max: 40, label: 'Fair', color: '#84cc16' },
+    { max: 60, label: 'Moderate', color: '#eab308' },
+    { max: 80, label: 'Poor', color: '#f97316' },
+    { max: Infinity, label: 'Very poor', color: '#ef4444' },
   ];
   const { label, color } = levels.find(l => aqi <= l.max)!;
   return {
@@ -31,11 +31,11 @@ function AirQualityCardBase({ data }: { data: AirQuality }) {
   return (
     <div style={{ padding: 24 }}>
       <p style={{ fontSize: 11, color: '#71717a', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>
-        Qualité de l'air — Paris
+        Air quality — Paris
       </p>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
         <p style={{ fontSize: 52, fontWeight: 700, lineHeight: 1, color: data.color, width: 'fit-content' }}>{data.aqi}</p>
-        <p style={{ fontSize: 13, color: '#71717a', width: 'fit-content' }}>IQA européen</p>
+        <p style={{ fontSize: 13, color: '#71717a', width: 'fit-content' }}>European AQI</p>
       </div>
       <p style={{ fontSize: 15, fontWeight: 600, color: data.color, marginBottom: 20, width: 'fit-content' }}>{data.label}</p>
       <div style={{ display: 'flex', gap: 24 }}>
@@ -54,7 +54,7 @@ function AirQualityCardBase({ data }: { data: AirQuality }) {
 
 const AirQualityCard = withSkeleton(AirQualityCardBase);
 
-const PLACEHOLDER: AirQuality = { aqi: 28, pm25: 8.4, pm10: 14.2, label: 'Acceptable', color: '#84cc16' };
+const PLACEHOLDER: AirQuality = { aqi: 28, pm25: 8.4, pm10: 14.2, label: 'Fair', color: '#84cc16' };
 
 export default function AirQuality({ delay, onLoaded }: { delay: number; onLoaded?: (ms: number) => void }) {
   const { data: result, isLoading } = useQuery({

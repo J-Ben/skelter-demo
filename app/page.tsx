@@ -35,19 +35,19 @@ export default function Home() {
 
   const cards: DrawerCard[] = [
     {
-      title: 'Météo', animation: 'wave', folder: 'weather',
+      title: 'Weather', animation: 'wave', folder: 'weather',
       files: WEATHER_FILES, component: <Weather delay={baseDelay + OFFSETS[0]} />,
     },
     {
-      title: 'Taux de change', animation: 'pulse', folder: 'currency',
+      title: 'Exchange Rate', animation: 'pulse', folder: 'currency',
       files: CURRENCY_FILES, component: <Currency delay={baseDelay + OFFSETS[1]} />,
     },
     {
-      title: "Qualité de l'air", animation: 'shiver', folder: 'air-quality',
+      title: 'Air Quality', animation: 'shiver', folder: 'air-quality',
       files: AIR_FILES, component: <AirQuality delay={baseDelay + OFFSETS[2]} />,
     },
     {
-      title: 'Jours fériés', animation: 'shatter', folder: 'holiday',
+      title: 'Public Holidays', animation: 'shatter', folder: 'holiday',
       files: HOLIDAY_FILES, component: <Holiday delay={baseDelay + OFFSETS[3]} />,
     },
   ];
@@ -74,19 +74,19 @@ export default function Home() {
           </div>
 
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 12, color: '#f4f4f5' }}>
-            Zéro skeleton écrit à la main.
+            Zero skeletons written by hand.
           </h1>
           <p style={{ fontSize: 15, color: '#71717a', maxWidth: 500, margin: '0 auto 32px', lineHeight: 1.8 }}>
-            Chaque carte utilise{' '}
+            Each card uses{' '}
             <code style={{ background: '#27272a', padding: '1px 6px', borderRadius: 4, fontSize: 13, color: '#a1a1aa' }}>
               withSkeleton
             </code>
-            {' '}— le composant est mesuré automatiquement.
-            Cliquez sur{' '}
+            {' '}— the component is measured automatically.
+            Click{' '}
             <code style={{ background: '#27272a', padding: '1px 6px', borderRadius: 4, fontSize: 12, color: '#a1a1aa' }}>
               {'<code />'}
             </code>
-            {' '}pour voir le code.
+            {' '}to view the source.
           </p>
 
           {/* Delay slider */}
@@ -96,7 +96,7 @@ export default function Home() {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               <span style={{ fontSize: 11, color: '#52525b', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                Délai simulé
+                Simulated delay
               </span>
               <span style={{
                 fontSize: 22, fontWeight: 700, color: '#f4f4f5',
@@ -112,7 +112,7 @@ export default function Home() {
               style={{ width: 240, accentColor: '#f97316', cursor: 'pointer' }}
             />
             <p style={{ fontSize: 11, color: '#3f3f46', margin: 0 }}>
-              décalage par carte : +0 · +600 · +1200 · +1800 ms
+              stagger per card: +0 · +600 · +1200 · +1800 ms
             </p>
           </div>
         </div>
@@ -124,10 +124,10 @@ export default function Home() {
         }}>
           {(['weather', 'currency', 'air', 'holiday'] as const).map((key, i) => {
             const cfg = [
-              { title: 'Météo', api: 'open-meteo.com', animation: 'wave' },
-              { title: 'Taux de change', api: 'frankfurter.app', animation: 'pulse' },
-              { title: "Qualité de l'air", api: 'open-meteo.com', animation: 'shiver' },
-              { title: 'Jours fériés', api: 'date.nager.at', animation: 'shatter' },
+              { title: 'Weather', api: 'open-meteo.com', animation: 'wave' },
+              { title: 'Exchange Rate', api: 'frankfurter.app', animation: 'pulse' },
+              { title: 'Air Quality', api: 'open-meteo.com', animation: 'shiver' },
+              { title: 'Public Holidays', api: 'date.nager.at', animation: 'shatter' },
             ][i];
             const components = [
               <Weather key="w" delay={baseDelay + OFFSETS[0]} onLoaded={onLoaded('weather')} />,
@@ -151,11 +151,11 @@ export default function Home() {
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 64, color: '#3f3f46', fontSize: 12 }}>
-          Construit avec{' '}
+          Built with{' '}
           <a href="https://www.npmjs.com/package/react-zero-skeleton" style={{ color: '#52525b', textDecoration: 'underline' }}>
             react-zero-skeleton
           </a>
-          {' '}· données open source · par{' '}
+          {' '}· open source data · by{' '}
           <a href="https://skelter.vercel.app" style={{ color: '#52525b', textDecoration: 'underline' }}>
             J-Ben
           </a>
