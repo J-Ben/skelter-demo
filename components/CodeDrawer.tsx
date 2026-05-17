@@ -21,7 +21,7 @@ const ANIM_COLOR: Record<string, string> = {
   wave: '#60a5fa', pulse: '#a78bfa', shiver: '#34d399', shatter: '#f97316',
 };
 
-export const DRAWER_W = 900;
+export const DRAWER_W = 1100;
 
 /* ─── File badge ──────────────────────────────────────────── */
 function LangBadge({ lang }: { lang: string }) {
