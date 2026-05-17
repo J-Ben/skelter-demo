@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Weather from '@/components/WeatherCard';
 import Currency from '@/components/CurrencyCard';
 import AirQuality from '@/components/AirQualityCard';
@@ -11,7 +11,15 @@ import { WEATHER_FILES, CURRENCY_FILES, AIR_FILES, HOLIDAY_FILES } from '@/lib/c
 const OFFSETS = [0, 600, 1200, 1800];
 
 export default function Home() {
+  const [version, setVersion] = useState<string | null>(null);
   const [baseDelay, setBaseDelay] = useState(2000);
+
+  useEffect(() => {
+    fetch('https://registry.npmjs.org/react-zero-skeleton/latest')
+      .then(r => r.json())
+      .then(d => setVersion(d.version))
+      .catch(() => {});
+  }, []);
   const [drawerIndex, setDrawerIndex] = useState<number | null>(null);
   const [loadTimes, setLoadTimes] = useState<Record<string, number | null>>({
     weather: null, currency: null, air: null, holiday: null,
@@ -62,7 +70,7 @@ export default function Home() {
             fontSize: 12, color: '#71717a',
           }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
-            react-zero-skeleton · demo
+            react-zero-skeleton{version ? ` v${version}` : ''} · demo
           </div>
 
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 12, color: '#f4f4f5' }}>
