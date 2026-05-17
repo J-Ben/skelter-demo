@@ -1,11 +1,12 @@
 'use client';
 import { useState } from 'react';
-import Weather, { WEATHER_CODE } from '@/components/WeatherCard';
-import Currency, { CURRENCY_CODE } from '@/components/CurrencyCard';
-import AirQuality, { AIR_CODE } from '@/components/AirQualityCard';
-import Holiday, { HOLIDAY_CODE } from '@/components/HolidayCard';
+import Weather from '@/components/WeatherCard';
+import Currency from '@/components/CurrencyCard';
+import AirQuality from '@/components/AirQualityCard';
+import Holiday from '@/components/HolidayCard';
 import DemoCard from '@/components/DemoCard';
 import { CodeDrawer, type DrawerCard } from '@/components/CodeDrawer';
+import { WEATHER_FILES, CURRENCY_FILES, AIR_FILES, HOLIDAY_FILES } from '@/lib/cardFiles';
 
 const OFFSETS = [0, 600, 1200, 1800];
 
@@ -26,20 +27,20 @@ export default function Home() {
 
   const cards: DrawerCard[] = [
     {
-      title: 'Météo', animation: 'wave', code: WEATHER_CODE,
-      component: <Weather delay={baseDelay + OFFSETS[0]} />,
+      title: 'Météo', animation: 'wave', folder: 'weather',
+      files: WEATHER_FILES, component: <Weather delay={baseDelay + OFFSETS[0]} />,
     },
     {
-      title: 'Taux de change', animation: 'pulse', code: CURRENCY_CODE,
-      component: <Currency delay={baseDelay + OFFSETS[1]} />,
+      title: 'Taux de change', animation: 'pulse', folder: 'currency',
+      files: CURRENCY_FILES, component: <Currency delay={baseDelay + OFFSETS[1]} />,
     },
     {
-      title: "Qualité de l'air", animation: 'shiver', code: AIR_CODE,
-      component: <AirQuality delay={baseDelay + OFFSETS[2]} />,
+      title: "Qualité de l'air", animation: 'shiver', folder: 'air-quality',
+      files: AIR_FILES, component: <AirQuality delay={baseDelay + OFFSETS[2]} />,
     },
     {
-      title: 'Jours fériés', animation: 'shatter', code: HOLIDAY_CODE,
-      component: <Holiday delay={baseDelay + OFFSETS[3]} />,
+      title: 'Jours fériés', animation: 'shatter', folder: 'holiday',
+      files: HOLIDAY_FILES, component: <Holiday delay={baseDelay + OFFSETS[3]} />,
     },
   ];
 
