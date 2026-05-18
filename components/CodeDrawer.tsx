@@ -182,7 +182,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
                   fontSize: 11, color: VS.muted, fontFamily: 'system-ui',
                   flexShrink: 0,
                 }}>
-                  ✏ Edit the component — preview updates live
+                  ✏ Edit the component · preview updates live
                 </div>
                 <div style={{ flex: 1, overflow: 'auto', background: VS.bg }}>
                   <LiveEditor

@@ -31,7 +31,7 @@ function AirQualityCardBase({ data }: { data: AirQuality }) {
   return (
     <div style={{ padding: 24 }}>
       <p style={{ fontSize: 11, color: '#71717a', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>
-        Air quality — Paris
+        Air quality: Paris
       </p>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
         <p style={{ fontSize: 52, fontWeight: 700, lineHeight: 1, color: data.color, width: 'fit-content' }}>{data.aqi}</p>

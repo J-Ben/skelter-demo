@@ -112,7 +112,7 @@ render(<App />)`;
 const AIR_LIVE = `function AirQualityCardBase({ data }) {
   return (
     <div style={{ padding: 24 }}>
-      <p style={{ fontSize: 11, color: '#71717a', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>Air quality — Paris</p>
+      <p style={{ fontSize: 11, color: '#71717a', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>Air quality: Paris</p>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
         <p style={{ fontSize: 52, fontWeight: 700, lineHeight: 1, color: data.color, width: 'fit-content' }}>{data.aqi}</p>
         <p style={{ fontSize: 13, color: '#71717a', width: 'fit-content' }}>European AQI</p>
@@ -457,7 +457,7 @@ export default function Home() {
             <code style={{ background: '#27272a', padding: '1px 6px', borderRadius: 4, fontSize: 13, color: '#a1a1aa' }}>
               withSkeleton
             </code>
-            {' '}— the component is measured automatically.
+            {' '}· the component is measured automatically.
             Click{' '}
             <code style={{ background: '#27272a', padding: '1px 6px', borderRadius: 4, fontSize: 12, color: '#a1a1aa' }}>
               {'<code />'}
