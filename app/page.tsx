@@ -54,7 +54,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="wave" exit="fadeUp" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="shatter" exit="fadeUp" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <WeatherCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
@@ -348,7 +348,7 @@ render(<App />)`;
 type CardKey = 'weather' | 'currency' | 'air' | 'holiday' | 'github' | 'product' | 'hn';
 
 const CARD_META: { key: CardKey; title: string; api: string; animation: string }[] = [
-  { key: 'weather',  title: 'Weather',         api: 'open-meteo.com',              animation: 'wave' },
+  { key: 'weather',  title: 'Weather',         api: 'open-meteo.com',              animation: 'shatter' },
   { key: 'currency', title: 'Exchange Rate',    api: 'frankfurter.app',             animation: 'pulse' },
   { key: 'air',      title: 'Air Quality',      api: 'open-meteo.com',              animation: 'shiver' },
   { key: 'holiday',  title: 'Public Holidays',  api: 'date.nager.at',               animation: 'wave' },
@@ -383,7 +383,7 @@ export default function Home() {
 
   const cards: DrawerCard[] = [
     {
-      title: 'Weather', animation: 'wave', folder: 'weather',
+      title: 'Weather', animation: 'shatter', folder: 'weather',
       files: WEATHER_FILES, component: <Weather delay={baseDelay + OFFSETS[0]} />,
       liveCode: WEATHER_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: WEATHER_DATA },
     },
@@ -515,8 +515,16 @@ export default function Home() {
             react-zero-skeleton
           </a>
           {' '}· open source data · by{' '}
-          <a href="https://skelter.vercel.app" style={{ color: '#52525b', textDecoration: 'underline' }}>
+          <a href="https://skelter.dev" style={{ color: '#52525b', textDecoration: 'underline' }}>
             J-Ben
+          </a>
+          {' '}·{' '}
+          <a href="https://skelter.dev" style={{ color: '#52525b', textDecoration: 'underline' }}>
+            docs
+          </a>
+          {' '}·{' '}
+          <a href="https://www.npmjs.com/package/react-zero-skeleton" style={{ color: '#f97316', textDecoration: 'underline', fontWeight: 600 }}>
+            npm
           </a>
         </div>
       </main>
