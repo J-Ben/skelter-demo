@@ -84,7 +84,7 @@ export default function Product({ delay, onLoaded }: { delay: number; onLoaded?:
   }, [result]);
 
   return (
-    <SkeletonTheme animation="wave" exit="fade" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+    <SkeletonTheme animation="pulse" exit="fade" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
       <ProductCard hasSkeleton isLoading={isLoading} data={result?.data ?? PLACEHOLDER} />
     </SkeletonTheme>
   );

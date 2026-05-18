@@ -178,7 +178,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="shatter" exit="fadeRight" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="wave" exit="fadeRight" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <HolidayCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
@@ -232,7 +232,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="shiver" exit="fadeLeft" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="shatter" exit="fadeLeft" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <GithubCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
@@ -277,7 +277,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="wave" exit="fade" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="pulse" exit="fade" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <ProductCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
@@ -330,7 +330,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="pulse" exit="fadeDown" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="shiver" exit="fadeDown" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <HNCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
@@ -351,10 +351,10 @@ const CARD_META: { key: CardKey; title: string; api: string; animation: string }
   { key: 'weather',  title: 'Weather',         api: 'open-meteo.com',              animation: 'wave' },
   { key: 'currency', title: 'Exchange Rate',    api: 'frankfurter.app',             animation: 'pulse' },
   { key: 'air',      title: 'Air Quality',      api: 'open-meteo.com',              animation: 'shiver' },
-  { key: 'holiday',  title: 'Public Holidays',  api: 'date.nager.at',               animation: 'shatter' },
-  { key: 'github',   title: 'GitHub Profile',   api: 'api.github.com',              animation: 'shiver' },
-  { key: 'product',  title: 'Product',          api: 'dummyjson.com',               animation: 'wave' },
-  { key: 'hn',       title: 'HN Top Story',     api: 'hacker-news.firebaseio.com',  animation: 'pulse' },
+  { key: 'holiday',  title: 'Public Holidays',  api: 'date.nager.at',               animation: 'wave' },
+  { key: 'github',   title: 'GitHub Profile',   api: 'api.github.com',              animation: 'shatter' },
+  { key: 'product',  title: 'Product',          api: 'dummyjson.com',               animation: 'pulse' },
+  { key: 'hn',       title: 'HN Top Story',     api: 'hacker-news.firebaseio.com',  animation: 'shiver' },
 ];
 
 export default function Home() {
@@ -398,22 +398,22 @@ export default function Home() {
       liveCode: AIR_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: AIR_DATA },
     },
     {
-      title: 'Public Holidays', animation: 'shatter', folder: 'holiday',
+      title: 'Public Holidays', animation: 'wave', folder: 'holiday',
       files: HOLIDAY_FILES, component: <Holiday delay={baseDelay + OFFSETS[3]} />,
       liveCode: HOLIDAY_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: HOLIDAY_DATA },
     },
     {
-      title: 'GitHub Profile', animation: 'shiver', folder: 'github',
+      title: 'GitHub Profile', animation: 'shatter', folder: 'github',
       files: GITHUB_FILES, component: <Github delay={baseDelay + OFFSETS[4]} />,
       liveCode: GITHUB_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: GITHUB_DATA },
     },
     {
-      title: 'Product', animation: 'wave', folder: 'product',
+      title: 'Product', animation: 'pulse', folder: 'product',
       files: PRODUCT_FILES, component: <Product delay={baseDelay + OFFSETS[5]} />,
       liveCode: PRODUCT_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: PRODUCT_DATA },
     },
     {
-      title: 'HN Top Story', animation: 'pulse', folder: 'hacker-news',
+      title: 'HN Top Story', animation: 'shiver', folder: 'hacker-news',
       files: HN_FILES, component: <HackerNews delay={baseDelay + OFFSETS[6]} />,
       liveCode: HN_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: HN_DATA },
     },

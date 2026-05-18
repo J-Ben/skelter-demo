@@ -84,7 +84,7 @@ export default function Github({ delay, onLoaded }: { delay: number; onLoaded?: 
   }, [result]);
 
   return (
-    <SkeletonTheme animation="shiver" exit="fadeLeft" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+    <SkeletonTheme animation="shatter" exit="fadeLeft" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
       <GithubCard hasSkeleton isLoading={isLoading} data={result?.data ?? PLACEHOLDER} />
     </SkeletonTheme>
   );
