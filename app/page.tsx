@@ -357,6 +357,41 @@ const CARD_META: { key: CardKey; title: string; api: string; animation: string }
   { key: 'hn',       title: 'HN Top Story',     api: 'hacker-news.firebaseio.com',  animation: 'shiver' },
 ];
 
+const QR_SRC =
+  'https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=' +
+  encodeURIComponent('exp://u.expo.dev/568dd7ef-a91e-4422-a444-b1c336689b5a?channel-name=main');
+
+function MobileQR() {
+  const [open, setOpen] = useState(false);
+  return (
+    <span style={{ position: 'relative', display: 'inline-block' }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          background: 'none', border: 'none', cursor: 'pointer',
+          color: '#52525b', fontSize: 12, textDecoration: 'underline',
+          padding: 0, fontFamily: 'inherit',
+        }}
+      >
+        try on mobile
+      </button>
+      {open && (
+        <div style={{
+          position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)',
+          background: '#18181b', border: '1px solid #3f3f46', borderRadius: 12,
+          padding: 16, textAlign: 'center', zIndex: 50, boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+        }}>
+          <div style={{ background: '#fff', borderRadius: 8, padding: 8, marginBottom: 8 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={QR_SRC} alt="QR Expo Go" width={160} height={160} style={{ display: 'block' }} />
+          </div>
+          <p style={{ fontSize: 11, color: '#52525b', margin: 0 }}>Scan avec Expo Go</p>
+        </div>
+      )}
+    </span>
+  );
+}
+
 export default function Home() {
   const [version, setVersion] = useState<string | null>(null);
   const [baseDelay, setBaseDelay] = useState(2000);
@@ -526,6 +561,8 @@ export default function Home() {
           <a href="https://www.npmjs.com/package/react-zero-skeleton" style={{ color: '#f97316', textDecoration: 'underline', fontWeight: 600 }}>
             npm
           </a>
+          {' '}·{' '}
+          <MobileQR />
         </div>
       </main>
 
