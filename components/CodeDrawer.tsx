@@ -146,7 +146,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
           <LiveProvider code={card!.liveCode!} scope={card!.liveScope ?? {}} noInline>
             <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
 
-              {/* LEFT — live preview */}
+              {/* LEFT :live preview */}
               <div style={{
                 width: 310, flexShrink: 0,
                 background: '#0d0d0f',
@@ -173,7 +173,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
                 }} />
               </div>
 
-              {/* CENTER — live editor */}
+              {/* CENTER :live editor */}
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
                 <div style={{
                   padding: '6px 14px',
@@ -203,7 +203,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
           /* ── Read-only mode ─────────────────────────── */
           <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
 
-            {/* LEFT — component preview */}
+            {/* LEFT :component preview */}
             <div style={{
               width: 310, flexShrink: 0,
               background: '#0d0d0f',
@@ -224,7 +224,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
               </div>
             </div>
 
-            {/* CENTER — tab bar + code editor */}
+            {/* CENTER :tab bar + code editor */}
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
               {/* Tab bar */}
               <div style={{
@@ -288,7 +288,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
               </div>
             </div>
 
-            {/* RIGHT — file explorer */}
+            {/* RIGHT :file explorer */}
             <div style={{
               width: 180, flexShrink: 0,
               background: VS.sidebar,
@@ -350,7 +350,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
         </div>
       </div>
 
-      {/* Flex spacer — pushes main content left */}
+      {/* Flex spacer :pushes main content left */}
       <div style={{
         flexShrink: 0,
         width: open ? DRAWER_W : 0,

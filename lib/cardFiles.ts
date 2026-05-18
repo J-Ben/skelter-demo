@@ -69,7 +69,7 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-// One line — skelter measures the layout and generates the bones.
+// One line :skelter measures the layout and generates the bones.
 export const WeatherCard = withSkeleton(WeatherCardBase);`,
   },
   {

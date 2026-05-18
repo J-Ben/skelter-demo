@@ -78,7 +78,7 @@ export default function Weather({ delay, onLoaded }: { delay: number; onLoaded?:
 export const WEATHER_CODE = `import { withSkeleton, SkeletonTheme } from 'react-zero-skeleton'
 import { useQuery } from '@tanstack/react-query'
 
-// Your component — unchanged
+// Your component :unchanged
 function WeatherCardBase({ data }) {
   return (
     <div>
