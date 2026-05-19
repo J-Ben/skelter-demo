@@ -23,16 +23,16 @@ export default function DemoCard({
 
   return (
     <div style={{
-      background: '#18181b', border: '1px solid #27272a',
+      background: 'var(--surface)', border: '1px solid var(--surface-2)',
       borderRadius: 16, width: 320, display: 'flex', flexDirection: 'column',
     }}>
       <div style={{
         padding: '10px 16px 0',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       }}>
-        <span style={{ fontSize: 12, fontWeight: 600, color: '#a1a1aa' }}>{title}</span>
+        <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-soft)' }}>{title}</span>
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-          <span style={{ fontSize: 10, color: '#3f3f46' }}>{api}</span>
+          <span style={{ fontSize: 10, color: 'var(--border)' }}>{api}</span>
           <span style={{
             fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
             background: color + '1a', color, border: `1px solid ${color}33`,
@@ -44,23 +44,23 @@ export default function DemoCard({
       <div>{children}</div>
 
       <div style={{
-        padding: '8px 16px 12px', borderTop: '1px solid #27272a',
+        padding: '8px 16px 12px', borderTop: '1px solid var(--surface-2)',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       }}>
         <span style={{ fontSize: 11 }}>
           {loadTime !== null
-            ? <span style={{ color: '#71717a' }}>loaded in <span style={{ color: '#a1a1aa', fontWeight: 700 }}>{loadTime} ms</span></span>
-            : <span style={{ color: '#3f3f46' }}>loading…</span>}
+            ? <span style={{ color: 'var(--muted)' }}>loaded in <span style={{ color: 'var(--text-soft)', fontWeight: 700 }}>{loadTime} ms</span></span>
+            : <span style={{ color: 'var(--border)' }}>loading…</span>}
         </span>
         <button
           onClick={onOpenCode}
           style={{
-            fontSize: 11, color: '#52525b', background: 'none', border: 'none',
+            fontSize: 11, color: 'var(--subtle)', background: 'none', border: 'none',
             cursor: 'pointer', fontFamily: 'monospace', transition: 'color 0.15s',
             padding: 0,
           }}
           onMouseEnter={e => (e.currentTarget.style.color = color)}
-          onMouseLeave={e => (e.currentTarget.style.color = '#52525b')}
+          onMouseLeave={e => (e.currentTarget.style.color = 'var(--subtle)')}
         >
           {'<code />'}
         </button>

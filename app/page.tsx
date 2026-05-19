@@ -9,6 +9,7 @@ import Github from '@/components/GithubCard';
 import Product from '@/components/ProductCard';
 import HackerNews from '@/components/HackerNewsCard';
 import DemoCard from '@/components/DemoCard';
+import ThemeToggle from '@/components/ThemeToggle';
 import { CodeDrawer, type DrawerCard } from '@/components/CodeDrawer';
 import { WEATHER_FILES, CURRENCY_FILES, AIR_FILES, HOLIDAY_FILES, GITHUB_FILES, PRODUCT_FILES, HN_FILES } from '@/lib/cardFiles';
 
@@ -369,7 +370,7 @@ function MobileQR() {
         onClick={() => setOpen(o => !o)}
         style={{
           background: 'none', border: 'none', cursor: 'pointer',
-          color: '#52525b', fontSize: 12, textDecoration: 'underline',
+          color: 'var(--subtle)', fontSize: 12, textDecoration: 'underline',
           padding: 0, fontFamily: 'inherit',
         }}
       >
@@ -378,14 +379,14 @@ function MobileQR() {
       {open && (
         <div style={{
           position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)',
-          background: '#18181b', border: '1px solid #3f3f46', borderRadius: 12,
+          background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12,
           padding: 16, textAlign: 'center', zIndex: 50, boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
         }}>
           <div style={{ background: '#fff', borderRadius: 8, padding: 8, marginBottom: 8 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={QR_SRC} alt="QR Expo Go" width={160} height={160} style={{ display: 'block' }} />
           </div>
-          <p style={{ fontSize: 11, color: '#52525b', margin: 0 }}>Scan avec Expo Go</p>
+          <p style={{ fontSize: 11, color: 'var(--subtle)', margin: 0 }}>Scan with Expo Go</p>
         </div>
       )}
     </span>
@@ -466,6 +467,7 @@ export default function Home() {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', overflow: 'hidden' }}>
+      <ThemeToggle />
       <main style={{
         flex: 1, minWidth: 0,
         padding: '48px 24px 80px',
@@ -477,24 +479,24 @@ export default function Home() {
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
             padding: '4px 14px', borderRadius: 20, marginBottom: 20,
-            background: '#27272a', border: '1px solid #3f3f46',
-            fontSize: 12, color: '#71717a',
+            background: 'var(--surface-2)', border: '1px solid var(--border)',
+            fontSize: 12, color: 'var(--muted)',
           }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
             react-zero-skeleton{version ? ` v${version}` : ''} · demo
           </div>
 
-          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 12, color: '#f4f4f5' }}>
+          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 12, color: 'var(--text)' }}>
             Zero skeletons written by hand.
           </h1>
-          <p style={{ fontSize: 15, color: '#71717a', maxWidth: 500, margin: '0 auto 32px', lineHeight: 1.8 }}>
+          <p style={{ fontSize: 15, color: 'var(--muted)', maxWidth: 500, margin: '0 auto 32px', lineHeight: 1.8 }}>
             Each card uses{' '}
-            <code style={{ background: '#27272a', padding: '1px 6px', borderRadius: 4, fontSize: 13, color: '#a1a1aa' }}>
+            <code style={{ background: 'var(--surface-2)', padding: '1px 6px', borderRadius: 4, fontSize: 13, color: 'var(--text-soft)' }}>
               withSkeleton
             </code>
             {' '}· the component is measured automatically.
             Click{' '}
-            <code style={{ background: '#27272a', padding: '1px 6px', borderRadius: 4, fontSize: 12, color: '#a1a1aa' }}>
+            <code style={{ background: 'var(--surface-2)', padding: '1px 6px', borderRadius: 4, fontSize: 12, color: 'var(--text-soft)' }}>
               {'<code />'}
             </code>
             {' '}to view and edit the source live.
@@ -503,14 +505,14 @@ export default function Home() {
           {/* Delay slider */}
           <div style={{
             display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 10,
-            padding: '20px 32px', background: '#18181b', border: '1px solid #27272a', borderRadius: 14,
+            padding: '20px 32px', background: 'var(--surface)', border: '1px solid var(--surface-2)', borderRadius: 14,
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <span style={{ fontSize: 11, color: '#52525b', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              <span style={{ fontSize: 11, color: 'var(--subtle)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 Simulated delay
               </span>
-              <span style={{ fontSize: 22, fontWeight: 700, color: '#f4f4f5', fontFamily: 'monospace', minWidth: 80, textAlign: 'right' }}>
-                {baseDelay}<span style={{ fontSize: 12, color: '#71717a', marginLeft: 3 }}>ms</span>
+              <span style={{ fontSize: 22, fontWeight: 700, color: 'var(--text)', fontFamily: 'monospace', minWidth: 80, textAlign: 'right' }}>
+                {baseDelay}<span style={{ fontSize: 12, color: 'var(--muted)', marginLeft: 3 }}>ms</span>
               </span>
             </div>
             <input
@@ -519,7 +521,7 @@ export default function Home() {
               onChange={e => onDelayChange(Number(e.target.value))}
               style={{ width: 240, accentColor: '#f97316', cursor: 'pointer' }}
             />
-            <p style={{ fontSize: 11, color: '#3f3f46', margin: 0 }}>
+            <p style={{ fontSize: 11, color: 'var(--border)', margin: 0 }}>
               staggered +300 ms per card
             </p>
           </div>
@@ -544,17 +546,17 @@ export default function Home() {
           ))}
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: 64, color: '#3f3f46', fontSize: 12 }}>
+        <div style={{ textAlign: 'center', marginTop: 64, color: 'var(--border)', fontSize: 12 }}>
           Built with{' '}
-          <a href="https://www.npmjs.com/package/react-zero-skeleton" style={{ color: '#52525b', textDecoration: 'underline' }}>
+          <a href="https://www.npmjs.com/package/react-zero-skeleton" style={{ color: 'var(--subtle)', textDecoration: 'underline' }}>
             react-zero-skeleton
           </a>
           {' '}· open source data · by{' '}
-          <a href="https://skelter.dev" style={{ color: '#52525b', textDecoration: 'underline' }}>
+          <a href="https://skelter.dev" style={{ color: 'var(--subtle)', textDecoration: 'underline' }}>
             J-Ben
           </a>
           {' '}·{' '}
-          <a href="https://skelter.dev" style={{ color: '#52525b', textDecoration: 'underline' }}>
+          <a href="https://skelter.dev" style={{ color: 'var(--subtle)', textDecoration: 'underline' }}>
             docs
           </a>
           {' '}·{' '}
