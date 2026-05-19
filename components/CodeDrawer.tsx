@@ -1,8 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { LiveProvider, LiveEditor, LivePreview, LiveError } from 'react-live';
+import { useTheme } from '@/hooks/useTheme';
 
 /* ─── Types ───────────────────────────────────────────────── */
 export type VirtualFile = { name: string; lang: 'tsx' | 'ts'; code: string };
@@ -12,11 +13,18 @@ export type DrawerCard = {
   liveCode?: string; liveScope?: Record<string, unknown>;
 };
 
-/* ─── VS Code palette ─────────────────────────────────────── */
-const VS = {
+const VS_DARK = {
   bg: '#1e1e1e', sidebar: '#252526', tabBar: '#2d2d2d',
   accent: '#007acc', text: '#cccccc', muted: '#858585',
-  selected: '#094771', border: '#333333',
+  selected: '#094771', border: '#333333', previewBg: '#0d0d0f',
+  cardBg: '#18181b', cardBorder: '#27272a',
+};
+
+const VS_LIGHT = {
+  bg: '#ffffff', sidebar: '#f3f3f3', tabBar: '#ececec',
+  accent: '#007acc', text: '#333333', muted: '#717171',
+  selected: '#d6ebff', border: '#e0e0e0', previewBg: '#f0f0f0',
+  cardBg: '#ffffff', cardBorder: '#e0e0e0',
 };
 
 const ANIM_COLOR: Record<string, string> = {
@@ -45,6 +53,10 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
   onClose: () => void;
   onNavigate: (i: number) => void;
 }) {
+  const theme = useTheme();
+  const VS = theme === 'light' ? VS_LIGHT : VS_DARK;
+  const hlStyle = theme === 'light' ? vs : vscDarkPlus;
+
   const open = activeIndex !== null;
   const card = open ? cards[activeIndex] : null;
   const color = card ? (ANIM_COLOR[card.animation] ?? '#71717a') : '#71717a';
@@ -106,8 +118,8 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
         {/* Title bar */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10,
-          padding: '8px 14px', background: '#323233',
-          borderBottom: '1px solid #111', flexShrink: 0, minHeight: 38,
+          padding: '8px 14px', background: VS.tabBar,
+          borderBottom: `1px solid ${VS.border}`, flexShrink: 0, minHeight: 38,
         }}>
           <span style={{ fontSize: 12, color: VS.text, flex: 1, fontFamily: 'system-ui' }}>
             {card?.title}
@@ -149,20 +161,20 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
               {/* LEFT :live preview */}
               <div style={{
                 width: 310, flexShrink: 0,
-                background: '#0d0d0f',
+                background: VS.previewBg,
                 borderRight: `1px solid ${VS.border}`,
                 display: 'flex', flexDirection: 'column',
                 alignItems: 'center', justifyContent: 'center',
                 padding: 16, gap: 14,
               }}>
                 <p style={{
-                  fontSize: 10, color: '#3f3f46', textTransform: 'uppercase',
+                  fontSize: 10, color: VS.muted, textTransform: 'uppercase',
                   letterSpacing: '0.1em', margin: 0, fontFamily: 'system-ui',
                 }}>Live Preview</p>
                 <div style={{
-                  background: '#18181b', border: '1px solid #27272a',
+                  background: VS.cardBg, border: `1px solid ${VS.cardBorder}`,
                   borderRadius: 14, width: '100%', overflow: 'hidden',
-                  color: '#f4f4f5',
+                  color: VS.text,
                 }}>
                   <LivePreview />
                 </div>
@@ -206,18 +218,18 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
             {/* LEFT :component preview */}
             <div style={{
               width: 310, flexShrink: 0,
-              background: '#0d0d0f',
+              background: VS.previewBg,
               borderRight: `1px solid ${VS.border}`,
               display: 'flex', flexDirection: 'column',
               alignItems: 'center', justifyContent: 'center',
               padding: 16, gap: 14,
             }}>
               <p style={{
-                fontSize: 10, color: '#3f3f46', textTransform: 'uppercase',
+                fontSize: 10, color: VS.muted, textTransform: 'uppercase',
                 letterSpacing: '0.1em', margin: 0, fontFamily: 'system-ui',
               }}>Preview</p>
               <div style={{
-                background: '#18181b', border: '1px solid #27272a',
+                background: VS.cardBg, border: `1px solid ${VS.cardBorder}`,
                 borderRadius: 14, width: '100%', overflow: 'hidden',
               }}>
                 {card?.component}
@@ -268,7 +280,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
                 {currentFile ? (
                   <SyntaxHighlighter
                     language={currentFile.lang === 'ts' ? 'typescript' : 'tsx'}
-                    style={vscDarkPlus}
+                    style={hlStyle}
                     customStyle={{
                       margin: 0, borderRadius: 0,
                       background: VS.bg,
@@ -276,7 +288,7 @@ export function CodeDrawer({ cards, activeIndex, onClose, onNavigate }: {
                       minHeight: '100%', padding: '16px 0',
                     }}
                     showLineNumbers
-                    lineNumberStyle={{ color: '#444', fontSize: 11, paddingRight: 16, userSelect: 'none', minWidth: 40 }}
+                    lineNumberStyle={{ color: VS.border, fontSize: 11, paddingRight: 16, userSelect: 'none', minWidth: 40 }}
                   >
                     {currentFile.code}
                   </SyntaxHighlighter>

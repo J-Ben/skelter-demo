@@ -467,13 +467,17 @@ export default function Home() {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', overflow: 'hidden' }}>
-      <ThemeToggle />
       <main style={{
         flex: 1, minWidth: 0,
-        padding: '48px 24px 80px',
+        padding: '16px 24px 80px',
         transition: 'padding 0.32s cubic-bezier(0.4,0,0.2,1)',
         overflow: 'auto',
       }}>
+        {/* Nav bar */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 32 }}>
+          <ThemeToggle />
+        </div>
+
         {/* Header */}
         <div style={{ textAlign: 'center', maxWidth: 1400, margin: '0 auto 56px' }}>
           <div style={{
