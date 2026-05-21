@@ -331,7 +331,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="shiver" exit="fadeDown" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="slide" exit="fadeDown" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <HNCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
@@ -355,7 +355,7 @@ const CARD_META: { key: CardKey; title: string; api: string; animation: string }
   { key: 'holiday',  title: 'Public Holidays',  api: 'date.nager.at',               animation: 'wave' },
   { key: 'github',   title: 'GitHub Profile',   api: 'api.github.com',              animation: 'shatter' },
   { key: 'product',  title: 'Product',          api: 'dummyjson.com',               animation: 'pulse' },
-  { key: 'hn',       title: 'HN Top Story',     api: 'hacker-news.firebaseio.com',  animation: 'shiver' },
+  { key: 'hn',       title: 'HN Top Story',     api: 'hacker-news.firebaseio.com',  animation: 'slide' },
 ];
 
 const QR_SRC =
@@ -449,7 +449,7 @@ export default function Home() {
       liveCode: PRODUCT_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: PRODUCT_DATA },
     },
     {
-      title: 'HN Top Story', animation: 'shiver', folder: 'hacker-news',
+      title: 'HN Top Story', animation: 'slide', folder: 'hacker-news',
       files: HN_FILES, component: <HackerNews delay={baseDelay + OFFSETS[6]} />,
       liveCode: HN_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: HN_DATA },
     },
@@ -480,15 +480,21 @@ export default function Home() {
 
         {/* Header */}
         <div style={{ textAlign: 'center', maxWidth: 1400, margin: '0 auto 56px' }}>
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '4px 14px', borderRadius: 20, marginBottom: 20,
-            background: 'var(--surface-2)', border: '1px solid var(--border)',
-            fontSize: 12, color: 'var(--muted)',
-          }}>
+          <a
+            href="https://www.npmjs.com/package/react-zero-skeleton"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '4px 14px', borderRadius: 20, marginBottom: 20,
+              background: 'var(--surface-2)', border: '1px solid var(--border)',
+              fontSize: 12, color: 'var(--muted)',
+              textDecoration: 'none', cursor: 'pointer',
+            }}
+          >
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
             react-zero-skeleton{version ? ` v${version}` : ''} · demo
-          </div>
+          </a>
 
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 12, color: 'var(--text)' }}>
             Zero skeletons written by hand.
