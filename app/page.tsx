@@ -474,7 +474,18 @@ export default function Home() {
         overflow: 'auto',
       }}>
         {/* Nav bar */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 32 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+          <a
+            href="https://skelter.dev"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              fontSize: 13, color: 'var(--muted)', textDecoration: 'none',
+              fontWeight: 500, letterSpacing: '-0.01em',
+            }}
+          >
+            <span style={{ fontSize: 16, lineHeight: 1 }}>←</span>
+            skelter.dev
+          </a>
           <ThemeToggle />
         </div>
 

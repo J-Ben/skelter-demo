@@ -86,7 +86,7 @@ export default function HackerNews({ delay, onLoaded }: { delay: number; onLoade
   }, [result]);
 
   return (
-    <SkeletonTheme animation="shiver" exit="fadeDown" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+    <SkeletonTheme animation="slide" exit="fadeDown" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
       <HNCard hasSkeleton isLoading={isLoading} data={result?.data ?? PLACEHOLDER} />
     </SkeletonTheme>
   );
