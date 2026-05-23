@@ -42,22 +42,22 @@ function GithubCardBase({ data }: { data: GithubProfile }) {
           {data.login[0].toUpperCase()}
         </div>
         <div>
-          <p style={{ fontWeight: 700, fontSize: 14, color: '#f4f4f5', width: 'fit-content' }}>{data.name}</p>
+          <p style={{ fontWeight: 700, fontSize: 14, color: '#f4f4f5', width: 'fit-content', marginBottom: 3 }}>{data.name}</p>
           <p style={{ fontSize: 12, color: '#52525b', width: 'fit-content' }}>@{data.login}</p>
         </div>
       </div>
       <p style={{ fontSize: 12, color: '#71717a', lineHeight: 1.6, marginBottom: 18, width: 'fit-content' }}>{data.bio}</p>
       <div style={{ display: 'flex', gap: 24 }}>
         <div>
-          <p style={{ fontSize: 16, fontWeight: 700, color: '#f4f4f5', width: 'fit-content' }}>{data.repos}</p>
+          <p style={{ fontSize: 16, fontWeight: 700, color: '#f4f4f5', width: 'fit-content', marginBottom: 3 }}>{data.repos}</p>
           <p style={{ fontSize: 11, color: '#52525b', width: 'fit-content' }}>repos</p>
         </div>
         <div>
-          <p style={{ fontSize: 16, fontWeight: 700, color: '#f4f4f5', width: 'fit-content' }}>{data.followers.toLocaleString()}</p>
+          <p style={{ fontSize: 16, fontWeight: 700, color: '#f4f4f5', width: 'fit-content', marginBottom: 3 }}>{data.followers.toLocaleString()}</p>
           <p style={{ fontSize: 11, color: '#52525b', width: 'fit-content' }}>followers</p>
         </div>
         <div>
-          <p style={{ fontSize: 16, fontWeight: 700, color: '#f4f4f5', width: 'fit-content' }}>{data.following}</p>
+          <p style={{ fontSize: 16, fontWeight: 700, color: '#f4f4f5', width: 'fit-content', marginBottom: 3 }}>{data.following}</p>
           <p style={{ fontSize: 11, color: '#52525b', width: 'fit-content' }}>following</p>
         </div>
       </div>
@@ -84,7 +84,7 @@ export default function Github({ delay, onLoaded }: { delay: number; onLoaded?: 
   }, [result]);
 
   return (
-    <SkeletonTheme animation="shatter" exit="fadeLeft" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+    <SkeletonTheme animation="shatter" exit="fadeLeft" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
       <GithubCard hasSkeleton isLoading={isLoading} data={result?.data ?? PLACEHOLDER} />
     </SkeletonTheme>
   );

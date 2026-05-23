@@ -43,7 +43,7 @@ function HNCardBase({ data }: { data: HNStory }) {
     <div style={{ padding: 20 }}>
       <div style={{ display: 'flex', gap: 16 }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0, width: 44 }}>
-          <p style={{ fontSize: 24, fontWeight: 800, color: '#f97316', lineHeight: 1, width: 'fit-content' }}>
+          <p style={{ fontSize: 24, fontWeight: 800, color: '#f97316', lineHeight: 1, width: 'fit-content', marginBottom: 3 }}>
             {data.score}
           </p>
           <p style={{ fontSize: 10, color: '#52525b', width: 'fit-content' }}>pts</p>

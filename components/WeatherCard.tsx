@@ -9,7 +9,7 @@ async function fetchWeather(delay: number): Promise<{ data: Weather; loadTime: n
   const t0 = Date.now();
   await new Promise(r => setTimeout(r, delay));
   const res = await fetch(
-    'https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code&wind_speed_unit=kmh'
+    'https://api.open-meteo.com/v1/forecast?latitude=30.27&longitude=-97.74&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code&wind_speed_unit=kmh'
   );
   const raw = await res.json();
   const c = raw.current;
@@ -21,7 +21,7 @@ async function fetchWeather(delay: number): Promise<{ data: Weather; loadTime: n
   };
   return {
     data: {
-      city: 'Paris', temp: Math.round(c.temperature_2m),
+      city: 'Austin, TX', temp: Math.round(c.temperature_2m),
       feelsLike: Math.round(c.apparent_temperature),
       humidity: c.relative_humidity_2m, wind: Math.round(c.wind_speed_10m),
       description: descriptions[c.weather_code] ?? 'Unknown',
@@ -56,7 +56,7 @@ function WeatherCardBase({ data }: { data: Weather }) {
 
 const WeatherCard = withSkeleton(WeatherCardBase);
 
-const PLACEHOLDER: Weather = { city: 'Paris', temp: 18, feelsLike: 16, humidity: 72, wind: 14, description: 'Partly cloudy' };
+const PLACEHOLDER: Weather = { city: 'Austin, TX', temp: 32, feelsLike: 35, humidity: 58, wind: 18, description: 'Partly cloudy' };
 
 export default function Weather({ delay, onLoaded }: { delay: number; onLoaded?: (ms: number) => void }) {
   const { data: result, isLoading } = useQuery({

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start"
   },
@@ -16,7 +16,7 @@
     "react-dom": "19.2.4",
     "react-live": "^4.1.8",
     "react-syntax-highlighter": "^16.1.1",
-    "react-zero-skeleton": "^0.6.0"
+    "react-zero-skeleton": "file:../react-zero-skeleton"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

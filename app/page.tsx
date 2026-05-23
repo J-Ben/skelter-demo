@@ -8,12 +8,13 @@ import Holiday from '@/components/HolidayCard';
 import Github from '@/components/GithubCard';
 import Product from '@/components/ProductCard';
 import HackerNews from '@/components/HackerNewsCard';
+import Health from '@/components/HealthCard';
 import DemoCard from '@/components/DemoCard';
 import ThemeToggle from '@/components/ThemeToggle';
 import { CodeDrawer, type DrawerCard } from '@/components/CodeDrawer';
-import { WEATHER_FILES, CURRENCY_FILES, AIR_FILES, HOLIDAY_FILES, GITHUB_FILES, PRODUCT_FILES, HN_FILES } from '@/lib/cardFiles';
+import { WEATHER_FILES, CURRENCY_FILES, AIR_FILES, HOLIDAY_FILES, GITHUB_FILES, PRODUCT_FILES, HN_FILES, HEALTH_FILES } from '@/lib/cardFiles';
 
-const OFFSETS = [0, 300, 600, 900, 1200, 1500, 1800];
+const OFFSETS = [0, 300, 600, 900, 1200, 1500, 1800, 2100];
 
 /* ─── Live scope data ─────────────────────────────────────── */
 const WEATHER_DATA  = { city: 'Paris', temp: 18, feelsLike: 16, humidity: 72, wind: 14, description: 'Partly cloudy' };
@@ -23,6 +24,12 @@ const HOLIDAY_DATA  = { name: 'Assumption of Mary', localName: 'Assomption', dat
 const GITHUB_DATA   = { login: 'gaearon', name: 'Dan Abramov', bio: 'Working on React. Also making egghead courses.', repos: 248, followers: 99400, following: 171 };
 const PRODUCT_DATA  = { title: 'iPhone 9', description: 'An apple mobile which is nothing like apple.', price: 549, rating: 4.7, category: 'smartphones' };
 const HN_DATA       = { title: 'Building a zero-config skeleton library for React', by: 'j-ben', score: 342, descendants: 87, url: 'https://github.com/J-Ben/skelter', time: Math.floor(Date.now() / 1000) - 7200 };
+const HEALTH_DATA = {
+  name: 'Sophie Martin', age: 28,
+  photo: 'https://randomuser.me/api/portraits/women/44.jpg',
+  location: 'Lyon, France',
+  heartRate: 68, steps: 8432, sleep: 7.2, calories: 1840,
+};
 
 /* ─── Live code snippets ──────────────────────────────────── */
 const WEATHER_LIVE = `function WeatherCardBase({ data }) {
@@ -55,7 +62,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="shatter" exit="fadeUp" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="shatter" exit="fadeUp" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <WeatherCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
@@ -96,7 +103,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="pulse" exit="fade" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="pulse" exit="fade" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <CurrencyCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
@@ -139,7 +146,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="shiver" exit="fadeDown" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="shiver" exit="fadeDown" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <AirQualityCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
@@ -179,7 +186,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="wave" exit="fadeRight" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="wave" exit="fadeRight" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <HolidayCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
@@ -233,7 +240,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="shatter" exit="fadeLeft" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="shatter" exit="fadeLeft" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <GithubCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
@@ -278,7 +285,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="pulse" exit="fade" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="pulse" exit="fade" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <ProductCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
@@ -345,17 +352,70 @@ function App() {
 
 render(<App />)`;
 
+const HEALTH_LIVE = `function Stat({ icon, value, label }) {
+  return (
+    <div style={{ flex: 1, background: '#18181b', borderRadius: 10, padding: '10px 12px', display: 'flex', flexDirection: 'column' }}>
+      <p style={{ fontSize: 11, color: '#71717a', marginBottom: 4, width: 'fit-content' }}>{icon} {label}</p>
+      <p style={{ fontSize: 15, fontWeight: 700, color: '#f4f4f5', width: 'fit-content' }}>{value}</p>
+    </div>
+  )
+}
+
+function HealthCardBase({ data }) {
+  return (
+    <div style={{ padding: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
+        <img src={data.photo} width={72} height={72} style={{ borderRadius: '50%', flexShrink: 0, objectFit: 'cover', display: 'block' }} />
+        <div>
+          <p style={{ fontSize: 16, fontWeight: 700, color: '#f4f4f5', width: 'fit-content', marginBottom: 3 }}>{data.name}</p>
+          <p style={{ fontSize: 12, color: '#71717a', width: 'fit-content', marginBottom: 3 }}>{data.age} years old</p>
+          <p style={{ fontSize: 12, color: '#52525b', width: 'fit-content' }}>{data.location}</p>
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+        <Stat icon="♥" label="Heart rate" value={\`\${data.heartRate} bpm\`} />
+        <Stat icon="⚡" label="Steps" value={data.steps.toLocaleString()} />
+      </div>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <Stat icon="◑" label="Sleep" value={\`\${data.sleep}h\`} />
+        <Stat icon="◈" label="Calories" value={\`\${data.calories} kcal\`} />
+      </div>
+    </div>
+  )
+}
+
+const HealthCard = withSkeleton(HealthCardBase)
+
+function App() {
+  const [loading, setLoading] = React.useState(false)
+  return (
+    <div style={{ fontFamily: 'system-ui' }}>
+      <SkeletonTheme animation="beat" exit="fadeDown" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={8}>
+        <HealthCard hasSkeleton isLoading={loading} data={data} />
+      </SkeletonTheme>
+      <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
+        <button onClick={() => setLoading(l => !l)} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 4, background: '#27272a', border: '1px solid #3f3f46', color: '#a1a1aa', cursor: 'pointer' }}>
+          {loading ? 'Show data' : 'Show skeleton'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+render(<App />)`;
+
 /* ─── Card meta ───────────────────────────────────────────── */
-type CardKey = 'weather' | 'currency' | 'air' | 'holiday' | 'github' | 'product' | 'hn';
+type CardKey = 'weather' | 'currency' | 'air' | 'holiday' | 'github' | 'product' | 'hn' | 'health';
 
 const CARD_META: { key: CardKey; title: string; api: string; animation: string }[] = [
   { key: 'weather',  title: 'Weather',         api: 'open-meteo.com',              animation: 'shatter' },
-  { key: 'currency', title: 'Exchange Rate',    api: 'frankfurter.app',             animation: 'pulse' },
   { key: 'air',      title: 'Air Quality',      api: 'open-meteo.com',              animation: 'shiver' },
   { key: 'holiday',  title: 'Public Holidays',  api: 'date.nager.at',               animation: 'wave' },
+  { key: 'health',   title: 'Health Profile',   api: 'randomuser.me',               animation: 'beat' },
+  { key: 'hn',       title: 'HN Top Story',     api: 'hacker-news.firebaseio.com',  animation: 'slide' },
+  { key: 'currency', title: 'Exchange Rate',    api: 'frankfurter.app',             animation: 'pulse' },
   { key: 'github',   title: 'GitHub Profile',   api: 'api.github.com',              animation: 'shatter' },
   { key: 'product',  title: 'Product',          api: 'dummyjson.com',               animation: 'pulse' },
-  { key: 'hn',       title: 'HN Top Story',     api: 'hacker-news.firebaseio.com',  animation: 'slide' },
 ];
 
 const QR_SRC =
@@ -399,7 +459,7 @@ export default function Home() {
   const [drawerIndex, setDrawerIndex] = useState<number | null>(null);
   const [loadTimes, setLoadTimes] = useState<Record<CardKey, number | null>>({
     weather: null, currency: null, air: null, holiday: null,
-    github: null, product: null, hn: null,
+    github: null, product: null, hn: null, health: null,
   });
 
   useEffect(() => {
@@ -414,7 +474,7 @@ export default function Home() {
 
   const onDelayChange = (val: number) => {
     setBaseDelay(val);
-    setLoadTimes({ weather: null, currency: null, air: null, holiday: null, github: null, product: null, hn: null });
+    setLoadTimes({ weather: null, currency: null, air: null, holiday: null, github: null, product: null, hn: null, health: null });
   };
 
   const cards: DrawerCard[] = [
@@ -424,34 +484,39 @@ export default function Home() {
       liveCode: WEATHER_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: WEATHER_DATA },
     },
     {
-      title: 'Exchange Rate', animation: 'pulse', folder: 'currency',
-      files: CURRENCY_FILES, component: <Currency delay={baseDelay + OFFSETS[1]} />,
-      liveCode: CURRENCY_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: CURRENCY_DATA },
-    },
-    {
       title: 'Air Quality', animation: 'shiver', folder: 'air-quality',
-      files: AIR_FILES, component: <AirQuality delay={baseDelay + OFFSETS[2]} />,
+      files: AIR_FILES, component: <AirQuality delay={baseDelay + OFFSETS[1]} />,
       liveCode: AIR_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: AIR_DATA },
     },
     {
       title: 'Public Holidays', animation: 'wave', folder: 'holiday',
-      files: HOLIDAY_FILES, component: <Holiday delay={baseDelay + OFFSETS[3]} />,
+      files: HOLIDAY_FILES, component: <Holiday delay={baseDelay + OFFSETS[2]} />,
       liveCode: HOLIDAY_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: HOLIDAY_DATA },
     },
     {
+      title: 'Health Profile', animation: 'beat', folder: 'health',
+      files: HEALTH_FILES, component: <Health delay={baseDelay + OFFSETS[3]} />,
+      liveCode: HEALTH_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: HEALTH_DATA },
+    },
+    {
+      title: 'HN Top Story', animation: 'slide', folder: 'hacker-news',
+      files: HN_FILES, component: <HackerNews delay={baseDelay + OFFSETS[4]} />,
+      liveCode: HN_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: HN_DATA },
+    },
+    {
+      title: 'Exchange Rate', animation: 'pulse', folder: 'currency',
+      files: CURRENCY_FILES, component: <Currency delay={baseDelay + OFFSETS[5]} />,
+      liveCode: CURRENCY_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: CURRENCY_DATA },
+    },
+    {
       title: 'GitHub Profile', animation: 'shatter', folder: 'github',
-      files: GITHUB_FILES, component: <Github delay={baseDelay + OFFSETS[4]} />,
+      files: GITHUB_FILES, component: <Github delay={baseDelay + OFFSETS[6]} />,
       liveCode: GITHUB_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: GITHUB_DATA },
     },
     {
       title: 'Product', animation: 'pulse', folder: 'product',
-      files: PRODUCT_FILES, component: <Product delay={baseDelay + OFFSETS[5]} />,
+      files: PRODUCT_FILES, component: <Product delay={baseDelay + OFFSETS[7]} />,
       liveCode: PRODUCT_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: PRODUCT_DATA },
-    },
-    {
-      title: 'HN Top Story', animation: 'slide', folder: 'hacker-news',
-      files: HN_FILES, component: <HackerNews delay={baseDelay + OFFSETS[6]} />,
-      liveCode: HN_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: HN_DATA },
     },
   ];
 
@@ -463,6 +528,7 @@ export default function Home() {
     github:   <Github     delay={baseDelay + OFFSETS[4]} onLoaded={onLoaded('github')} />,
     product:  <Product    delay={baseDelay + OFFSETS[5]} onLoaded={onLoaded('product')} />,
     hn:       <HackerNews delay={baseDelay + OFFSETS[6]} onLoaded={onLoaded('hn')} />,
+    health:   <Health     delay={baseDelay + OFFSETS[7]} onLoaded={onLoaded('health')} />,
   };
 
   return (

@@ -36,7 +36,7 @@ function HolidayCardBase({ data }: { data: Holiday }) {
           <p style={{ fontSize: 13, fontWeight: 600, textTransform: 'capitalize', width: 'fit-content' }}>{formatted}</p>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <p style={{ fontSize: 36, fontWeight: 700, color: '#f97316', lineHeight: 1, width: 'fit-content', marginLeft: 'auto' }}>{data.daysUntil}</p>
+          <p style={{ fontSize: 36, fontWeight: 700, color: '#f97316', lineHeight: 1, width: 'fit-content', marginLeft: 'auto', marginBottom: 3 }}>{data.daysUntil}</p>
           <p style={{ fontSize: 11, color: '#71717a', width: 'fit-content', marginLeft: 'auto' }}>days</p>
         </div>
       </div>
@@ -59,7 +59,7 @@ export default function Holiday({ delay, onLoaded }: { delay: number; onLoaded?:
   }, [result]);
 
   return (
-    <SkeletonTheme animation="wave" exit="fadeRight" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+    <SkeletonTheme animation="wave" exit="fadeRight" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
       <HolidayCard hasSkeleton isLoading={isLoading} data={result?.data ?? PLACEHOLDER} />
     </SkeletonTheme>
   );

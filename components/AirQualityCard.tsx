@@ -9,7 +9,7 @@ async function fetchAirQuality(delay: number): Promise<{ data: AirQuality; loadT
   const t0 = Date.now();
   await new Promise(r => setTimeout(r, delay));
   const res = await fetch(
-    'https://air-quality-api.open-meteo.com/v1/air-quality?latitude=48.85&longitude=2.35&current=pm2_5,pm10,european_aqi'
+    'https://air-quality-api.open-meteo.com/v1/air-quality?latitude=51.51&longitude=-0.13&current=pm2_5,pm10,european_aqi'
   );
   const raw = await res.json();
   const aqi = raw.current.european_aqi;
@@ -31,7 +31,7 @@ function AirQualityCardBase({ data }: { data: AirQuality }) {
   return (
     <div style={{ padding: 24 }}>
       <p style={{ fontSize: 11, color: '#71717a', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>
-        Air quality: Paris
+        Air quality: London
       </p>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
         <p style={{ fontSize: 52, fontWeight: 700, lineHeight: 1, color: data.color, width: 'fit-content' }}>{data.aqi}</p>
@@ -54,7 +54,7 @@ function AirQualityCardBase({ data }: { data: AirQuality }) {
 
 const AirQualityCard = withSkeleton(AirQualityCardBase);
 
-const PLACEHOLDER: AirQuality = { aqi: 28, pm25: 8.4, pm10: 14.2, label: 'Fair', color: '#84cc16' };
+const PLACEHOLDER: AirQuality = { aqi: 22, pm25: 6.8, pm10: 11.4, label: 'Fair', color: '#84cc16' };
 
 export default function AirQuality({ delay, onLoaded }: { delay: number; onLoaded?: (ms: number) => void }) {
   const { data: result, isLoading } = useQuery({
