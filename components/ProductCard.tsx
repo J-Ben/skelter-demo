@@ -43,8 +43,9 @@ function ProductCardBase({ data }: { data: Product }) {
         height: 110,
         background: 'linear-gradient(135deg, #27272a 0%, #3f3f46 100%)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 36,
       }}>
-        <span style={{ fontSize: 36 }}>🛍</span>
+        🛍
       </div>
       <div style={{ padding: '14px 18px 18px' }}>
         <span style={{
@@ -84,7 +85,7 @@ export default function Product({ delay, onLoaded }: { delay: number; onLoaded?:
   }, [result]);
 
   return (
-    <SkeletonTheme animation="pulse" exit="fade" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+    <SkeletonTheme animation="pulse" exit="fade" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
       <ProductCard hasSkeleton isLoading={isLoading} data={result?.data ?? PLACEHOLDER} />
     </SkeletonTheme>
   );

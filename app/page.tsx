@@ -410,12 +410,12 @@ type CardKey = 'weather' | 'currency' | 'air' | 'holiday' | 'github' | 'product'
 const CARD_META: { key: CardKey; title: string; api: string; animation: string }[] = [
   { key: 'weather',  title: 'Weather',         api: 'open-meteo.com',              animation: 'shatter' },
   { key: 'air',      title: 'Air Quality',      api: 'open-meteo.com',              animation: 'shiver' },
-  { key: 'holiday',  title: 'Public Holidays',  api: 'date.nager.at',               animation: 'wave' },
+  { key: 'product',  title: 'Product',          api: 'dummyjson.com',               animation: 'pulse' },
   { key: 'health',   title: 'Health Profile',   api: 'randomuser.me',               animation: 'beat' },
   { key: 'hn',       title: 'HN Top Story',     api: 'hacker-news.firebaseio.com',  animation: 'slide' },
   { key: 'currency', title: 'Exchange Rate',    api: 'frankfurter.app',             animation: 'pulse' },
   { key: 'github',   title: 'GitHub Profile',   api: 'api.github.com',              animation: 'shatter' },
-  { key: 'product',  title: 'Product',          api: 'dummyjson.com',               animation: 'pulse' },
+  { key: 'holiday',  title: 'Public Holidays',  api: 'date.nager.at',               animation: 'wave' },
 ];
 
 const QR_SRC =
@@ -489,9 +489,9 @@ export default function Home() {
       liveCode: AIR_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: AIR_DATA },
     },
     {
-      title: 'Public Holidays', animation: 'wave', folder: 'holiday',
-      files: HOLIDAY_FILES, component: <Holiday delay={baseDelay + OFFSETS[2]} />,
-      liveCode: HOLIDAY_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: HOLIDAY_DATA },
+      title: 'Product', animation: 'pulse', folder: 'product',
+      files: PRODUCT_FILES, component: <Product delay={baseDelay + OFFSETS[2]} />,
+      liveCode: PRODUCT_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: PRODUCT_DATA },
     },
     {
       title: 'Health Profile', animation: 'beat', folder: 'health',
@@ -514,9 +514,9 @@ export default function Home() {
       liveCode: GITHUB_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: GITHUB_DATA },
     },
     {
-      title: 'Product', animation: 'pulse', folder: 'product',
-      files: PRODUCT_FILES, component: <Product delay={baseDelay + OFFSETS[7]} />,
-      liveCode: PRODUCT_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: PRODUCT_DATA },
+      title: 'Public Holidays', animation: 'wave', folder: 'holiday',
+      files: HOLIDAY_FILES, component: <Holiday delay={baseDelay + OFFSETS[7]} />,
+      liveCode: HOLIDAY_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: HOLIDAY_DATA },
     },
   ];
 
@@ -524,9 +524,9 @@ export default function Home() {
     weather:  <Weather    delay={baseDelay + OFFSETS[0]} onLoaded={onLoaded('weather')} />,
     currency: <Currency   delay={baseDelay + OFFSETS[1]} onLoaded={onLoaded('currency')} />,
     air:      <AirQuality delay={baseDelay + OFFSETS[2]} onLoaded={onLoaded('air')} />,
-    holiday:  <Holiday    delay={baseDelay + OFFSETS[3]} onLoaded={onLoaded('holiday')} />,
+    holiday:  <Holiday    delay={baseDelay + OFFSETS[7]} onLoaded={onLoaded('holiday')} />,
     github:   <Github     delay={baseDelay + OFFSETS[4]} onLoaded={onLoaded('github')} />,
-    product:  <Product    delay={baseDelay + OFFSETS[5]} onLoaded={onLoaded('product')} />,
+    product:  <Product    delay={baseDelay + OFFSETS[2]} onLoaded={onLoaded('product')} />,
     hn:       <HackerNews delay={baseDelay + OFFSETS[6]} onLoaded={onLoaded('hn')} />,
     health:   <Health     delay={baseDelay + OFFSETS[7]} onLoaded={onLoaded('health')} />,
   };
