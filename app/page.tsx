@@ -331,7 +331,7 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   return (
     <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="slide" exit="fadeDown" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+      <SkeletonTheme animation="slide" exit="fadeDown" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
         <HNCard hasSkeleton isLoading={loading} data={data} />
       </SkeletonTheme>
       <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
