@@ -67,7 +67,7 @@ export default function AirQuality({ delay, onLoaded }: { delay: number; onLoade
   }, [result]);
 
   return (
-    <SkeletonTheme animation="shiver" enter="fadeUp" exit="fadeDown" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+    <SkeletonTheme animation="shiver" exit="fadeDown" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
       <AirQualityCard hasSkeleton isLoading={isLoading} data={result?.data ?? PLACEHOLDER} />
     </SkeletonTheme>
   );
