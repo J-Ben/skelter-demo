@@ -420,7 +420,7 @@ const CARD_META: { key: CardKey; title: string; api: string; animation: string }
 
 const QR_SRC =
   'https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=' +
-  encodeURIComponent('https://expo.dev/preview/update?message=initial+publish&updateRuntimeVersion=1.0.0&createdAt=2026-05-18T14%3A17%3A48.948Z&slug=exp&projectId=568dd7ef-a91e-4422-a444-b1c336689b5a&group=a5119375-5914-4119-87f6-6eec4e3948dc');
+  encodeURIComponent('https://expo.dev/preview/update?message=feat%3A+demo+with+react-zero-skeleton+0.9.0&updateRuntimeVersion=1.0.0&createdAt=2026-05-24T22%3A59%3A18.766Z&slug=exp&projectId=568dd7ef-a91e-4422-a444-b1c336689b5a&group=19791f95-313c-4039-8ffe-4c5da1b2bea5');
 
 function MobileQR() {
   const [open, setOpen] = useState(false);
