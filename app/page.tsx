@@ -409,13 +409,13 @@ type CardKey = 'weather' | 'currency' | 'air' | 'holiday' | 'github' | 'product'
 
 const CARD_META: { key: CardKey; title: string; api: string; animation: string }[] = [
   { key: 'weather',  title: 'Weather',         api: 'open-meteo.com',              animation: 'shatter' },
-  { key: 'air',      title: 'Air Quality',      api: 'open-meteo.com',              animation: 'shiver' },
-  { key: 'product',  title: 'Product',          api: 'dummyjson.com',               animation: 'pulse' },
-  { key: 'health',   title: 'Health Profile',   api: 'randomuser.me',               animation: 'beat' },
-  { key: 'hn',       title: 'HN Top Story',     api: 'hacker-news.firebaseio.com',  animation: 'slide' },
-  { key: 'currency', title: 'Exchange Rate',    api: 'frankfurter.app',             animation: 'pulse' },
-  { key: 'github',   title: 'GitHub Profile',   api: 'api.github.com',              animation: 'shatter' },
-  { key: 'holiday',  title: 'Public Holidays',  api: 'date.nager.at',               animation: 'wave' },
+  { key: 'health',   title: 'Health Profile',  api: 'randomuser.me',               animation: 'beat' },
+  { key: 'product',  title: 'Product',         api: 'dummyjson.com',               animation: 'pulse' },
+  { key: 'air',      title: 'Air Quality',     api: 'open-meteo.com',              animation: 'shiver' },
+  { key: 'hn',       title: 'HN Top Story',    api: 'hacker-news.firebaseio.com',  animation: 'slide' },
+  { key: 'currency', title: 'Exchange Rate',   api: 'frankfurter.app',             animation: 'pulse' },
+  { key: 'github',   title: 'GitHub Profile',  api: 'api.github.com',              animation: 'shatter' },
+  { key: 'holiday',  title: 'Public Holidays', api: 'date.nager.at',               animation: 'wave' },
 ];
 
 const QR_SRC =
@@ -484,9 +484,9 @@ export default function Home() {
       liveCode: WEATHER_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: WEATHER_DATA },
     },
     {
-      title: 'Air Quality', animation: 'shiver', folder: 'air-quality',
-      files: AIR_FILES, component: <AirQuality delay={baseDelay + OFFSETS[1]} />,
-      liveCode: AIR_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: AIR_DATA },
+      title: 'Health Profile', animation: 'beat', folder: 'health',
+      files: HEALTH_FILES, component: <Health delay={baseDelay + OFFSETS[1]} />,
+      liveCode: HEALTH_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: HEALTH_DATA },
     },
     {
       title: 'Product', animation: 'pulse', folder: 'product',
@@ -494,9 +494,9 @@ export default function Home() {
       liveCode: PRODUCT_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: PRODUCT_DATA },
     },
     {
-      title: 'Health Profile', animation: 'beat', folder: 'health',
-      files: HEALTH_FILES, component: <Health delay={baseDelay + OFFSETS[3]} />,
-      liveCode: HEALTH_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: HEALTH_DATA },
+      title: 'Air Quality', animation: 'shiver', folder: 'air-quality',
+      files: AIR_FILES, component: <AirQuality delay={baseDelay + OFFSETS[3]} />,
+      liveCode: AIR_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: AIR_DATA },
     },
     {
       title: 'HN Top Story', animation: 'slide', folder: 'hacker-news',

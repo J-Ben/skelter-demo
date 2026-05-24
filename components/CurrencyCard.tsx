@@ -51,7 +51,7 @@ export default function Currency({ delay, onLoaded }: { delay: number; onLoaded?
   }, [result]);
 
   return (
-    <SkeletonTheme animation="pulse" exit="fade" color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+    <SkeletonTheme animation="pulse" exit="fade" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
       <CurrencyCard hasSkeleton isLoading={isLoading} data={result?.data ?? PLACEHOLDER} />
     </SkeletonTheme>
   );
