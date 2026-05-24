@@ -410,7 +410,7 @@ type CardKey = 'weather' | 'currency' | 'air' | 'holiday' | 'github' | 'product'
 const CARD_META: { key: CardKey; title: string; api: string; animation: string }[] = [
   { key: 'weather',  title: 'Weather',         api: 'open-meteo.com',              animation: 'shatter' },
   { key: 'health',   title: 'Health Profile',  api: 'randomuser.me',               animation: 'beat' },
-  { key: 'product',  title: 'Product',         api: 'dummyjson.com',               animation: 'pulse' },
+  { key: 'product',  title: 'Product',         api: 'dummyjson.com',               animation: 'drip' },
   { key: 'air',      title: 'Air Quality',     api: 'open-meteo.com',              animation: 'shiver' },
   { key: 'hn',       title: 'HN Top Story',    api: 'hacker-news.firebaseio.com',  animation: 'slide' },
   { key: 'currency', title: 'Exchange Rate',   api: 'frankfurter.app',             animation: 'pulse' },
@@ -489,7 +489,7 @@ export default function Home() {
       liveCode: HEALTH_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: HEALTH_DATA },
     },
     {
-      title: 'Product', animation: 'pulse', folder: 'product',
+      title: 'Product', animation: 'drip', folder: 'product',
       files: PRODUCT_FILES, component: <Product delay={baseDelay + OFFSETS[2]} />,
       liveCode: PRODUCT_LIVE, liveScope: { withSkeleton, SkeletonTheme, data: PRODUCT_DATA },
     },
