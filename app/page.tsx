@@ -425,20 +425,34 @@ const QR_SRC =
 function MobileQR() {
   const [open, setOpen] = useState(false);
   return (
-    <span style={{ position: 'relative', display: 'inline-block' }}>
+    <span
+      style={{ position: 'relative', display: 'inline-flex' }}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
       <button
         onClick={() => setOpen(o => !o)}
+        title="Try on mobile"
         style={{
           background: 'none', border: 'none', cursor: 'pointer',
-          color: 'var(--subtle)', fontSize: 12, textDecoration: 'underline',
-          padding: 0, fontFamily: 'inherit',
+          color: 'var(--muted)', padding: 4, display: 'flex', alignItems: 'center',
+          borderRadius: 6, lineHeight: 1,
         }}
       >
-        try on mobile
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none" />
+          <rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none" />
+          <rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none" />
+          <path d="M14 14h3v3h-3z" fill="currentColor" stroke="none" />
+          <path d="M17 14h4" /><path d="M14 17v4" /><path d="M17 17h4v4h-4z" />
+        </svg>
       </button>
       {open && (
         <div style={{
-          position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)',
+          position: 'absolute', top: 'calc(100% + 8px)', right: 0,
           background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12,
           padding: 16, textAlign: 'center', zIndex: 50, boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
         }}>
@@ -446,7 +460,7 @@ function MobileQR() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={QR_SRC} alt="QR Expo Go" width={160} height={160} style={{ display: 'block' }} />
           </div>
-          <p style={{ fontSize: 11, color: 'var(--subtle)', margin: 0 }}>Scan with Expo Go</p>
+          <p style={{ fontSize: 11, color: 'var(--subtle)', margin: 0, whiteSpace: 'nowrap' }}>Scan with Expo Go</p>
         </div>
       )}
     </span>
@@ -552,7 +566,10 @@ export default function Home() {
             <span style={{ fontSize: 16, lineHeight: 1 }}>←</span>
             skelter.dev
           </a>
-          <ThemeToggle />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <MobileQR />
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Header */}
@@ -650,8 +667,6 @@ export default function Home() {
           <a href="https://www.npmjs.com/package/react-zero-skeleton" style={{ color: '#f97316', textDecoration: 'underline', fontWeight: 600 }}>
             npm
           </a>
-          {' '}·{' '}
-          <MobileQR />
         </div>
       </main>
 
