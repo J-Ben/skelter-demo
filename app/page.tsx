@@ -59,18 +59,10 @@ const WEATHER_LIVE = `function WeatherCardBase({ data }) {
 const WeatherCard = withSkeleton(WeatherCardBase)
 
 function App() {
-  const [loading, setLoading] = React.useState(false)
   return (
-    <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="shatter" exit="fadeUp" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
-        <WeatherCard hasSkeleton isLoading={loading} data={data} />
+    <SkeletonTheme animation="shatter" exit="fadeUp" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+        <WeatherCard hasSkeleton isLoading={previewLoading} data={data} />
       </SkeletonTheme>
-      <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
-        <button onClick={() => setLoading(l => !l)} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 4, background: '#27272a', border: '1px solid #3f3f46', color: '#a1a1aa', cursor: 'pointer' }}>
-          {loading ? 'Show data' : 'Show skeleton'}
-        </button>
-      </div>
-    </div>
   )
 }
 
@@ -100,18 +92,10 @@ const CURRENCY_LIVE = `function CurrencyCardBase({ data }) {
 const CurrencyCard = withSkeleton(CurrencyCardBase)
 
 function App() {
-  const [loading, setLoading] = React.useState(false)
   return (
-    <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="pulse" exit="fade" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
-        <CurrencyCard hasSkeleton isLoading={loading} data={data} />
+    <SkeletonTheme animation="pulse" exit="fade" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+        <CurrencyCard hasSkeleton isLoading={previewLoading} data={data} />
       </SkeletonTheme>
-      <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
-        <button onClick={() => setLoading(l => !l)} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 4, background: '#27272a', border: '1px solid #3f3f46', color: '#a1a1aa', cursor: 'pointer' }}>
-          {loading ? 'Show data' : 'Show skeleton'}
-        </button>
-      </div>
-    </div>
   )
 }
 
@@ -143,18 +127,10 @@ const AIR_LIVE = `function AirQualityCardBase({ data }) {
 const AirQualityCard = withSkeleton(AirQualityCardBase)
 
 function App() {
-  const [loading, setLoading] = React.useState(false)
   return (
-    <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="shiver" exit="fadeDown" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
-        <AirQualityCard hasSkeleton isLoading={loading} data={data} />
+    <SkeletonTheme animation="shiver" exit="fadeDown" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+        <AirQualityCard hasSkeleton isLoading={previewLoading} data={data} />
       </SkeletonTheme>
-      <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
-        <button onClick={() => setLoading(l => !l)} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 4, background: '#27272a', border: '1px solid #3f3f46', color: '#a1a1aa', cursor: 'pointer' }}>
-          {loading ? 'Show data' : 'Show skeleton'}
-        </button>
-      </div>
-    </div>
   )
 }
 
@@ -183,18 +159,10 @@ const HOLIDAY_LIVE = `function HolidayCardBase({ data }) {
 const HolidayCard = withSkeleton(HolidayCardBase)
 
 function App() {
-  const [loading, setLoading] = React.useState(false)
   return (
-    <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="wave" exit="fadeRight" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
-        <HolidayCard hasSkeleton isLoading={loading} data={data} />
+    <SkeletonTheme animation="wave" exit="fadeRight" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+        <HolidayCard hasSkeleton isLoading={previewLoading} data={data} />
       </SkeletonTheme>
-      <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
-        <button onClick={() => setLoading(l => !l)} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 4, background: '#27272a', border: '1px solid #3f3f46', color: '#a1a1aa', cursor: 'pointer' }}>
-          {loading ? 'Show data' : 'Show skeleton'}
-        </button>
-      </div>
-    </div>
   )
 }
 
@@ -237,18 +205,10 @@ function GithubCardBase({ data }) {
 const GithubCard = withSkeleton(GithubCardBase)
 
 function App() {
-  const [loading, setLoading] = React.useState(false)
   return (
-    <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="shatter" exit="fadeLeft" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
-        <GithubCard hasSkeleton isLoading={loading} data={data} />
+    <SkeletonTheme animation="shatter" exit="fadeLeft" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+        <GithubCard hasSkeleton isLoading={previewLoading} data={data} />
       </SkeletonTheme>
-      <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
-        <button onClick={() => setLoading(l => !l)} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 4, background: '#27272a', border: '1px solid #3f3f46', color: '#a1a1aa', cursor: 'pointer' }}>
-          {loading ? 'Show data' : 'Show skeleton'}
-        </button>
-      </div>
-    </div>
   )
 }
 
@@ -282,18 +242,10 @@ function ProductCardBase({ data }) {
 const ProductCard = withSkeleton(ProductCardBase)
 
 function App() {
-  const [loading, setLoading] = React.useState(false)
   return (
-    <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="pulse" exit="fade" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
-        <ProductCard hasSkeleton isLoading={loading} data={data} />
+    <SkeletonTheme animation="pulse" exit="fade" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+        <ProductCard hasSkeleton isLoading={previewLoading} data={data} />
       </SkeletonTheme>
-      <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
-        <button onClick={() => setLoading(l => !l)} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 4, background: '#27272a', border: '1px solid #3f3f46', color: '#a1a1aa', cursor: 'pointer' }}>
-          {loading ? 'Show data' : 'Show skeleton'}
-        </button>
-      </div>
-    </div>
   )
 }
 
@@ -335,18 +287,10 @@ function HNCardBase({ data }) {
 const HNCard = withSkeleton(HNCardBase)
 
 function App() {
-  const [loading, setLoading] = React.useState(false)
   return (
-    <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="slide" exit="fadeDown" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
-        <HNCard hasSkeleton isLoading={loading} data={data} />
+    <SkeletonTheme animation="slide" exit="fadeDown" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={6}>
+        <HNCard hasSkeleton isLoading={previewLoading} data={data} />
       </SkeletonTheme>
-      <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
-        <button onClick={() => setLoading(l => !l)} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 4, background: '#27272a', border: '1px solid #3f3f46', color: '#a1a1aa', cursor: 'pointer' }}>
-          {loading ? 'Show data' : 'Show skeleton'}
-        </button>
-      </div>
-    </div>
   )
 }
 
@@ -387,18 +331,10 @@ function HealthCardBase({ data }) {
 const HealthCard = withSkeleton(HealthCardBase)
 
 function App() {
-  const [loading, setLoading] = React.useState(false)
   return (
-    <div style={{ fontFamily: 'system-ui' }}>
-      <SkeletonTheme animation="beat" exit="fadeDown" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={8}>
-        <HealthCard hasSkeleton isLoading={loading} data={data} />
+    <SkeletonTheme animation="beat" exit="fadeDown" revealOnExit color="#27272a" highlightColor="#3f3f46" borderRadius={8}>
+        <HealthCard hasSkeleton isLoading={previewLoading} data={data} />
       </SkeletonTheme>
-      <div style={{ padding: '8px 16px', borderTop: '1px solid #27272a' }}>
-        <button onClick={() => setLoading(l => !l)} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 4, background: '#27272a', border: '1px solid #3f3f46', color: '#a1a1aa', cursor: 'pointer' }}>
-          {loading ? 'Show data' : 'Show skeleton'}
-        </button>
-      </div>
-    </div>
   )
 }
 
